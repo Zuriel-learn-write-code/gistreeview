@@ -1,0 +1,327 @@
+{
+  "login": {
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "loginButton": "Login",
+    "enterDescription": "Enter your email and password to login!",
+    "placeholderEmail": "Enter your email",
+    "placeholderPassword": "Enter your password",
+    "loggingIn": "Logging in..."
+  },
+  "register": {
+    "title": "Register",
+    "enterDescription": "Enter your email and password to register!",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "registerButton": "Register",
+    "registering": "Registering...",
+    "placeholderFirst": "Enter your first name",
+    "placeholderLast": "Enter your last name",
+    "placeholderEmail": "Enter your email",
+    "placeholderPassword": "Enter your password",
+    "registrationSuccess": "Registration successful! Please login.",
+    "registrationFailed": "Registration failed"
+  },
+    "pages": {
+      "loginTitle": "Login",
+      "loginDescription": "This is the login page for GISTREEVIEW.",
+      "registerTitle": "Register",
+      "registerDescription": "This is the registration page for GISTREEVIEW."
+    },
+    "userMap": {
+      "title": "User Map",
+      "description": "Interactive user map",
+      "activeControls": {
+        "layers": "Layers",
+        "locate": "Pick coordinates",
+        "editRoad": "Edit road",
+        "filters": "Filter road and tree",
+        "addTree": "Add tree",
+        "editTree": "Edit tree",
+        "deleteTree": "Delete"
+      },
+      "help": {
+        "editRoad": "Click a road to select it for editing",
+        "editTree": "Click a tree to edit",
+        "locate": "Pick coordinates — click map to place a pin",
+        "filters": "Filter road and tree visibility",
+        "addTree": "Click map to place a tree",
+        "deleteTree": "Select trees to delete"
+      },
+      "layers": {
+        "standard": "Standard",
+        "osm": "OSM Standard (Mapnik)",
+        "cartoLight": "CartoVoyager (light)",
+        "cartoDesc": "Carto base tiles (light)",
+        "cartoDark": "CartoVoyager (dark)",
+        "cartoDarkDesc": "Carto dark basemap",
+        "transport": "Transport",
+        "transportDesc": "Transport map (Thunderforest)",
+        "topo": "Topo",
+        "topoDesc": "Topographic / traces (OpenTopoMap)"
+      },
+      "alerts": {
+        "layerSwitchedTitle": "Layer switched",
+        "layerSwitchedMessage": "Now showing {{layer}}"
+      },
+      "coordinates": {
+        "title": "Coordinates",
+        "lat": "Lat",
+        "lng": "Lng",
+        "copiedTitle": "Copied",
+        "copiedMessage": "Coordinates copied to clipboard",
+        "copyFailedTitle": "Copy failed",
+        "copyFailedMessage": "Failed to copy coordinates"
+      },
+      "editRoad": {
+        "title": "Edit road",
+        "idLabel": "ID:",
+        "nameLabel": "Name",
+        "colorLabel": "Color",
+        "statusLabel": "Status",
+        "statusOptions": {
+          "primary": "primary",
+          "secondary": "secondary",
+          "tertiary": "tertiary",
+          "unknown": "unknown"
+        },
+        "savedTitle": "Road updated",
+        "savedMessage": "Road updated successfully",
+        "failedTitle": "Failed to save",
+        "failedMessage": "Failed to update road",
+        "exit": "Exit editing mode"
+      },
+      "editTree": {
+        "enable": "Enable edit tree - click a tree to edit",
+        "disable": "Disable edit tree"
+      },
+      "road": {
+        "selectedTitle": "Road selected"
+      },
+      "tree": {
+        "addedTitle": "Tree added",
+        "addedMessage": "Tree added successfully",
+        "updatedTitle": "Tree updated",
+        "updatedMessage": "Tree updated successfully",
+        "deletedTitle": "Trees deleted",
+        "deletedMessage": "Deleted {{count}} tree(s)"
+      },
+      "delete": {
+        "title": "Delete trees",
+        "cancel": "Cancel delete trees",
+        "selected": "Selected trees to delete",
+        "no_selected": "No trees selected"
+      },
+      "add": {
+        "title": "Add tree",
+        "edit": "Edit tree",
+        "cancel": "Cancel add tree",
+        "click_map": "Click on map to place a tree",
+        "select_road": "Select road",
+        "upload_hint": "You can upload multiple images",
+        "location_missing": "Location missing",
+        "create_failed": "Failed creating tree"
+      },
+      "report": {
+        "loginRequiredTitle": "Login required",
+        "loginRequiredMessage": "You must login first",
+        "treeTitle": "Report tree",
+        "upload_pictures": "Upload pictures (optional)",
+        "partialSavedTitle": "Report created",
+        "partialSavedMessage": "Report saved but picture upload failed",
+        "sentTitle": "Report sent",
+        "sentMessage": "Thank you — report submitted",
+        "failedTitle": "Failed",
+        "failedMessage": "Failed to submit report"
+      },
+      "labels": {
+        "coordinates": "Coordinates",
+        "lat": "Lat",
+        "lng": "Lng",
+        "lat_label": "Lat",
+        "lng_label": "Lng",
+        "species": "Species",
+        "age": "Age",
+        "trunk_diameter": "Trunk dia (cm)",
+        "lbranch_width": "Lbranch width (m)",
+        "status": "Status",
+        "ownership": "Ownership",
+        "road": "Road",
+        "unnamedRoad": "Unnamed road",
+        "description": "Description",
+        "pictures": "Pictures",
+        "trees": "Trees"
+      },
+      "status": {
+        "good": "good",
+        "warning": "warning",
+        "danger": "danger"
+      },
+      "controls": {
+        "fullscreen": "Toggle fullscreen",
+        "zoomIn": "Zoom in",
+        "zoomOut": "Zoom out"
+      },
+      "filters": {
+        "showRoad": "Show road",
+        "showTree": "Show tree",
+        "roads": {
+          "primary": "Primary",
+          "secondary": "Secondary",
+          "tertiary": "Tertiary",
+          "unknown": "Unknown"
+        },
+        "trees": {
+          "good": "Good",
+          "warning": "Warning",
+          "danger": "Danger"
+        }
+      }
+    },
+  "common": {
+    "logout": "Log out",
+    "copy": "Copy",
+    "close": "Close",
+    "save": "Save",
+    "submit": "Submit",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "clear": "Clear",
+    "id": "ID"
+  },
+  "close-me": "Close modal",
+  "open-me": "Open modal",
+  "leaflet": "Leaflet",
+
+  "auth": {
+    "logoAlt": "GISTREEVIEW logo",
+    "logoAltDark": "GISTREEVIEW logo dark",
+    "alreadyHaveAccount": "Already have an account?",
+    "noAccount": "Don't have an account?"
+  },
+  "sidebar": {
+    "menu": "Menu",
+    "map": "Map",
+    "admin": {
+      "title": "Admin",
+      "inputData": "Input Data Admin",
+      "dataUser": "Data User",
+      "dataTree": "Data Tree",
+      "dataRoad": "Data Road",
+      "dataReport": "Data Report"
+    },
+    "officerDashboard": "Dashboard Officer",
+    "user": {
+      "title": "User",
+      "myProfile": "My Profile",
+      "edit": {
+        "profile": "Edit Profile"
+      },
+      "example": "Example"
+    },
+    "dataReport": "Data Report"
+  },
+  "admin": {
+    "dataInput": {
+      "pageTitle": "Admin Dashboard | GISTREEVIEW",
+      "pageDescription": "Admin dashboard for managing reports, trees, and users.",
+      "breadcrumb": "Dashboard Admin",
+      "cards": {
+        "report": "Report",
+        "pending": "Pending",
+        "rejected": "Rejected",
+        "verified": "Verified",
+        "resolved": "Resolved"
+      },
+      "noReports": "No reports",
+      "alerts": {
+        "loginRequiredTitle": "Login required",
+        "loginRequiredMessage": "You must login first",
+        "updateSuccessTitle": "Updated",
+        "updateSuccessMessage": "Report and tree status updated successfully",
+        "updateFailedTitle": "Update failed",
+        "updateFailedMessage": "Failed to update report or tree"
+      }
+      ,
+      "treeCard": {
+        "title": "Tree",
+        "idLabel": "ID",
+        "ageLabel": "Age",
+        "trunkDiameter": "Trunk diameter (cm)",
+        "lbranchWidth": "Lbranch width (m)",
+        "speciesLabel": "Species",
+        "streetLabel": "Street",
+        "notesLabel": "Notes",
+        "ownership": "Ownership",
+        "roadName": "Road name",
+        "description": "Description",
+        "photos": "Photos",
+        "uploadedAt": "Uploaded at",
+        "saveButton": "Save",
+        "cancelButton": "Cancel"
+      },
+      "reportCard": {
+        "title": "Report",
+        "idLabel": "ID",
+        "reportBy": "Reporter",
+        "reporterLabel": "Reporter",
+        "phoneLabel": "Phone",
+        "addressLabel": "Address",
+        "description": "Description",
+        "status": "Status",
+        "statusLabel": "Status",
+        "updateDescription": "Update description",
+        "changeStatus": "Change status",
+        "confirmButton": "Confirm",
+        "photos": "Photos",
+        "createdAt": "Created at",
+        "saveButton": "Save",
+        "cancelButton": "Cancel",
+        "statusOptions": {
+          "pending": "Pending",
+          "resolved": "Resolved",
+          "rejected": "Rejected"
+        }
+      }
+    }
+  },
+  "treeReportDetail": {
+    "treeCard": {
+      "title": "Tree",
+      "idLabel": "Tree ID",
+      "ageLabel": "Age",
+      "trunkDiameter": "Trunk diameter (cm)",
+      "lbranchWidth": "Lbranch width (m)",
+      "ownership": "Ownership",
+      "roadName": "Road name",
+      "description": "Description",
+      "photos": "Photos",
+      "uploadedAt": "Tree data uploaded at {{when}}"
+    },
+    "reportCard": {
+      "title": "Report Form",
+      "idLabel": "Report ID",
+      "reportBy": "Report by",
+      "verifiedBy": "Verified by",
+      "resolvedBy": "Resolved by",
+      "resolvedAt": "Resolved at",
+      "status": "Status",
+      "description": "Description",
+      "photos": "Photos",
+      "updateDescription": "Update description",
+      "changeStatus": "Change status",
+      "confirmButton": "Confirm"
+    }
+  },
+  "header": {
+    "user": "User",
+    "userEmailFallback": "No email",
+    "editProfile": "Edit Profile",
+    "logout": "Log out"
+  },
+  "dataReport": {
+    "reports": "Reports"
+  },
+  "trees": "Trees"
+}

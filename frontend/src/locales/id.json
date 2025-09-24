@@ -1,0 +1,331 @@
+{
+  "login": {
+    "title": "Masuk",
+    "email": "Email",
+    "password": "Kata sandi",
+    "loginButton": "Masuk",
+    "enterDescription": "Masukkan email dan kata sandi Anda untuk masuk!",
+    "placeholderEmail": "Masukkan email Anda",
+    "placeholderPassword": "Masukkan kata sandi Anda",
+    "loggingIn": "Masuk..."
+  },
+  "register": {
+    "title": "Register",
+    "enterDescription": "Masukkan email dan kata sandi Anda untuk registrasi!",
+    "firstName": "Nama Depan",
+    "lastName": "Nama Belakang",
+    "registerButton": "Register",
+    "registering": "Mendaftarkan...",
+    "placeholderFirst": "Masukkan nama depan Anda",
+    "placeholderLast": "Masukkan nama belakang Anda",
+    "placeholderEmail": "Masukkan email Anda",
+    "placeholderPassword": "Masukkan kata sandi Anda",
+    "registrationSuccess": "Registrasi berhasil! Silakan login.",
+    "registrationFailed": "Registrasi gagal"
+  },
+  "pages": {
+    "loginTitle": "Login",
+    "loginDescription": "Ini adalah halaman login untuk GISTREEVIEW.",
+    "registerTitle": "Register",
+    "registerDescription": "Ini adalah halaman registrasi untuk GISTREEVIEW."
+  },
+  "userMap": {
+    "title": "Peta Pengguna",
+    "description": "Peta interaktif pengguna",
+    "activeControls": {
+      "layers": "Lapisan",
+      "locate": "Pilih koordinat",
+      "editRoad": "Sunting jalan",
+      "filters": "Filter jalan & pohon",
+      "addTree": "Tambah pohon",
+      "editTree": "Sunting pohon",
+      "deleteTree": "Hapus"
+    },
+    "help": {
+      "editRoad": "Klik jalan untuk memilihnya dan menyunting",
+      "editTree": "Klik pohon untuk menyunting",
+  "locate": "Pilih koordinat — klik peta untuk menempatkan pin",
+  "filters": "Atur visibilitas jalan & pohon",
+      "addTree": "Klik peta untuk menempatkan pohon",
+      "deleteTree": "Pilih pohon untuk dihapus"
+    },
+    "layers": {
+      "standard": "Standar",
+      "osm": "OSM Standar (Mapnik)",
+      "cartoLight": "CartoVoyager (terang)",
+      "cartoDesc": "Tile dasar Carto (terang)",
+      "cartoDark": "CartoVoyager (gelap)",
+      "cartoDarkDesc": "Peta dasar Carto gelap",
+      "transport": "Transport",
+      "transportDesc": "Peta transport (Thunderforest)",
+      "topo": "Topo",
+      "topoDesc": "Topografi / jejak (OpenTopoMap)"
+    },
+    "alerts": {
+      "layerSwitchedTitle": "Ganti lapisan",
+      "layerSwitchedMessage": "Sekarang menampilkan {{layer}}"
+    },
+    "coordinates": {
+      "title": "Koordinat",
+      "lat": "Lat",
+      "lng": "Lng",
+      "copiedTitle": "Disalin",
+      "copiedMessage": "Koordinat disalin ke clipboard",
+      "copyFailedTitle": "Gagal menyalin",
+      "copyFailedMessage": "Gagal menyalin koordinat"
+    },
+    "editRoad": {
+      "title": "Sunting jalan",
+      "idLabel": "ID:",
+      "nameLabel": "Nama",
+      "colorLabel": "Warna",
+      "statusLabel": "Status",
+      "statusOptions": {
+        "primary": "primer",
+        "secondary": "sekunder",
+        "tertiary": "tersier",
+        "unknown": "tidak diketahui"
+      },
+      "savedTitle": "Jalan diperbarui",
+      "savedMessage": "Jalan berhasil diperbarui",
+      "failedTitle": "Gagal menyimpan",
+      "failedMessage": "Gagal memperbarui jalan",
+      "exit": "Keluar dari mode sunting"
+    },
+    "editTree": {
+      "enable": "Aktifkan sunting pohon - klik pohon untuk menyunting",
+      "disable": "Nonaktifkan sunting pohon"
+    },
+    "road": {
+      "selectedTitle": "Jalan dipilih"
+    },
+    "tree": {
+      "addedTitle": "Pohon ditambahkan",
+      "addedMessage": "Pohon berhasil ditambahkan",
+      "updatedTitle": "Pohon diperbarui",
+      "updatedMessage": "Pohon berhasil diperbarui",
+      "deletedTitle": "Pohon dihapus",
+      "deletedMessage": "Menghapus {{count}} pohon"
+    },
+    "delete": {
+      "title": "Hapus pohon",
+      "cancel": "Batal menghapus pohon",
+      "selected": "Pohon terpilih untuk dihapus",
+      "no_selected": "Tidak ada pohon yang dipilih"
+    },
+    "add": {
+      "title": "Tambah pohon",
+      "edit": "Sunting pohon",
+      "cancel": "Batal menambah pohon",
+      "click_map": "Klik pada peta untuk menempatkan pohon",
+      "select_road": "Pilih jalan",
+      "upload_hint": "Anda dapat mengunggah banyak gambar",
+      "location_missing": "Lokasi belum diisi",
+      "create_failed": "Gagal membuat pohon"
+    },
+    "report": {
+      "loginRequiredTitle": "Perlu login",
+      "loginRequiredMessage": "Anda harus masuk terlebih dahulu",
+      "partialSavedTitle": "Laporan dibuat",
+      "partialSavedMessage": "Laporan disimpan tetapi unggah gambar gagal",
+      "sentTitle": "Laporan terkirim",
+      "sentMessage": "Terima kasih — laporan telah dikirim",
+      "title": "Laporan",
+      "treeTitle": "Lapor pohon",
+      "upload_pictures": "Unggah gambar (opsional)",
+      "failedTitle": "Gagal",
+      "failedMessage": "Gagal mengirim laporan"
+    },
+    "labels": {
+      "ownership": "Pemilik",
+      "road": "Jalan",
+      "unnamedRoad": "Jalan tanpa nama",
+      "coordinates": "Koordinat",
+      "lat": "Lat",
+      "lng": "Lng",
+      "lat_label": "Lat",
+      "lng_label": "Lng",
+      "species": "Spesies",
+      "age": "Umur",
+      "trunk_diameter": "Diameter batang (cm)",
+      "lbranch_width": "Lebar cabang (m)",
+      "status": "Status",
+      "description": "Deskripsi",
+      "pictures": "Unggah gambar",
+      "trees": "Pohon",
+      "unnamedRoadShort": "Jalan tanpa nama"
+    }
+    ,
+    "status": {
+      "good": "Baik",
+      "warning": "Perhatian",
+      "danger": "Bahaya"
+    }
+    ,
+    "controls": {
+      "fullscreen": "Beralih layar penuh",
+      "zoomIn": "Perbesar",
+      "zoomOut": "Perkecil"
+    },
+    "filters": {
+      "showRoad": "Tampilkan jalan",
+      "showTree": "Tampilkan pohon",
+      "roads": {
+        "primary": "Primer",
+        "secondary": "Sekunder",
+        "tertiary": "Tersier",
+        "unknown": "Tidak diketahui"
+      },
+      "trees": {
+        "good": "Baik",
+        "warning": "Perhatian",
+        "danger": "Bahaya"
+      }
+    }
+  },
+  "close-me": "Tutup modal",
+  "open-me": "Buka modal",
+  "leaflet": "Leaflet",
+  "common": {
+    "logout": "Keluar",
+    "copy": "Salin",
+    "close": "Tutup",
+    "save": "Simpan",
+    "submit": "Kirim",
+    "delete": "Hapus",
+    "cancel": "Batal",
+    "clear": "Bersihkan",
+    "id": "ID"
+  },
+  "auth": {
+    "logoAlt": "Logo GISTREEVIEW",
+    "logoAltDark": "Logo GISTREEVIEW (gelap)",
+    "alreadyHaveAccount": "Sudah punya akun?",
+    "noAccount": "Belum punya akun?"
+  },
+  "sidebar": {
+    "menu": "Menu",
+    "map": "Peta",
+    "admin": {
+      "title": "Admin",
+      "inputData": "Data Masuk",
+      "dataUser": "Data Pengguna",
+      "dataTree": "Data Pohon",
+      "dataRoad": "Data Jalan",
+      "dataReport": "Data Laporan"
+    },
+    "officerDashboard": "Dasbor Petugas",
+    "user": {
+      "title": "Pengguna",
+      "myProfile": "Profil Saya",
+      "edit": {
+        "profile": "Sunting Profil"
+      },
+      "example": "Contoh"
+    },
+    "dataReport": "Data Laporan"
+  },
+  "admin": {
+    "dataInput": {
+      "pageTitle": "Dasbor Admin | GISTREEVIEW",
+      "pageDescription": "Dasbor admin untuk mengelola laporan, pohon, dan pengguna.",
+      "breadcrumb": "Dashboard Admin",
+      "cards": {
+        "report": "Laporan",
+        "pending": "Menunggu",
+        "rejected": "Ditolak",
+        "verified": "Terverifikasi",
+        "resolved": "Terselesaikan"
+      },
+      "noReports": "Tidak ada laporan",
+      "alerts": {
+        "loginRequiredTitle": "Perlu login",
+        "loginRequiredMessage": "Anda harus masuk terlebih dahulu",
+        "updateSuccessTitle": "Berhasil",
+        "updateSuccessMessage": "Status laporan dan pohon berhasil diperbarui",
+        "updateFailedTitle": "Gagal memperbarui",
+        "updateFailedMessage": "Gagal memperbarui laporan atau pohon"
+      }
+      ,
+      "treeCard": {
+        "title": "Pohon",
+        "idLabel": "ID",
+        "ageLabel": "Umur",
+        "trunkDiameter": "Diameter batang (cm)",
+        "lbranchWidth": "Lebar cabang (m)",
+        "speciesLabel": "Spesies",
+        "streetLabel": "Jalan",
+        "notesLabel": "Catatan",
+        "ownership": "Kepemilikan",
+        "roadName": "Nama jalan",
+        "description": "Deskripsi",
+        "photos": "Foto",
+        "uploadedAt": "Diunggah pada",
+        "saveButton": "Simpan",
+        "cancelButton": "Batal"
+      },
+      "reportCard": {
+        "title": "Laporan",
+        "idLabel": "ID",
+        "reportBy": "Pelapor",
+        "reporterLabel": "Pelapor",
+        "phoneLabel": "Telepon",
+        "addressLabel": "Alamat",
+        "description": "Deskripsi",
+        "status": "Status",
+        "statusLabel": "Status",
+        "updateDescription": "Perbarui deskripsi",
+        "changeStatus": "Ganti status",
+        "confirmButton": "Konfirmasi",
+        "photos": "Foto",
+        "createdAt": "Dibuat pada",
+        "saveButton": "Simpan",
+        "cancelButton": "Batal",
+        "statusOptions": {
+          "pending": "Menunggu",
+          "resolved": "Terselesaikan",
+          "rejected": "Ditolak"
+        }
+      }
+    }
+  },
+  "treeReportDetail": {
+    "treeCard": {
+      "title": "Pohon",
+      "idLabel": "ID Pohon",
+      "ageLabel": "Umur",
+      "trunkDiameter": "Diameter batang (cm)",
+      "lbranchWidth": "Lebar cabang (m)",
+      "ownership": "Kepemilikan",
+      "roadName": "Nama jalan",
+      "description": "Deskripsi",
+      "photos": "Foto",
+      "uploadedAt": "Data pohon di upload pada {{when}}"
+    },
+    "reportCard": {
+      "title": "Form Laporan",
+      "idLabel": "ID Laporan",
+      "reportBy": "Pelapor",
+      "verifiedBy": "Terverifikasi oleh",
+      "resolvedBy": "Diselesaikan oleh",
+      "resolvedAt": "Diselesaikan pada",
+      "status": "Status",
+      "description": "Deskripsi",
+      "photos": "Foto",
+      "updateDescription": "Perbarui deskripsi",
+      "changeStatus": "Ganti status",
+      "confirmButton": "Konfirmasi"
+    }
+  },
+
+  "header": {
+    "user": "User",
+    "userEmailFallback": "Tidak ada email",
+    "editProfile": "Sunting Profil",
+    "logout": "Keluar"
+  },
+  "dataReport": {
+    "reports": "Laporan"
+  },
+  "trees": "Pohon"
+}

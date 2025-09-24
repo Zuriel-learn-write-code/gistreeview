@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="120" viewBox="0 0 200 120">
+  <rect width="200" height="120" fill="#0f172a" />
+  <g fill="#10b981">
+    <rect x="10" y="15" width="180" height="18" rx="4" />
+    <rect x="10" y="45" width="140" height="14" rx="4" />
+  </g>
+  <text x="10" y="105" font-family="Arial" font-size="12" fill="#e6f2ff">Carto Voyager</text>
+</svg>

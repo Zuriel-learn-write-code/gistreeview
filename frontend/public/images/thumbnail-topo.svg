@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="120" viewBox="0 0 200 120">
+  <rect width="200" height="120" fill="#f0fdf4" />
+  <g fill="#84cc16">
+    <path d="M10 80 L40 40 L70 76 L100 30 L130 70 L160 50 L190 84 L190 100 L10 100 Z" />
+  </g>
+  <text x="10" y="112" font-family="Arial" font-size="12" fill="#065f46">OpenTopoMap</text>
+</svg>
