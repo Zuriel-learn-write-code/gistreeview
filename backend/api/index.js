@@ -15,7 +15,13 @@ import path from "path";
 const app = express();
 const prisma = new PrismaClient();
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    "http://localhost:4000",
+    "http://localhost:5173",
+    "https://gistreeview.vercel.app"
+  ]
+}));
 app.use(express.json());
 app.use(
   "/uploads",
