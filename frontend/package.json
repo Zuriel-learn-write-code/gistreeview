@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
+    "@tailwindcss/postcss": "^4.1.13",
     "@types/leaflet.fullscreen": "^1.0.8",
     "@types/styled-components": "^5.1.26",
     "flatpickr": "^4.6.13",
