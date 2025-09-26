@@ -96,7 +96,7 @@ model Road {
   id          String   @id @default(uuid())
   nameroad    String?
   description String?
-  geometry    Json?
+  geometry    Json?   
   // OSM metadata
   source_osm_id String?    // e.g. "way/44131949"
   osm_type      String?    // e.g. "way" or "relation"
