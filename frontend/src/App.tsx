@@ -18,6 +18,7 @@ import ViewRoad from "./pages/View/ViewRoad";
 import ViewReport from "./pages/View/Viewreport";
 import UserMapPage from "./pages/User/UserMap";
 
+import ExampleComponent from "./pages/ExampleComponent";
 import NotFound from "./pages/OtherPage/NotFound";
 
 export default function App() {
@@ -56,6 +57,7 @@ export default function App() {
           >
             <Route path="/user/editprofile" element={<EditProfile />} />
             <Route path="/user/map" element={<UserMapPage />} />
+            <Route path="/user/example" element={<ExampleComponent />} />
           </Route>
 
           {/* Common Routes (accessible by all authenticated users) */}
