@@ -76,9 +76,9 @@ app.use("/api/reports", reportsRoute);
 app.use("/api/reportpictures", reportPicturesRoute);
 app.use("/api/profile", profileRoute);
 
-export default app;
-
 // Export a serverless handler for platforms like Vercel that expect a function entry.
 // This keeps local usage (importing the app) intact while also providing a handler
 // that wraps the Express app for per-invocation execution.
 export const handler = serverless(app);
+// Export default for compatibility with some Vercel entrypoint expectations
+export default handler;
