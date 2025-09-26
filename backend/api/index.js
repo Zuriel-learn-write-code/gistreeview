@@ -55,16 +55,13 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use(
-  "/uploads",
-  express.static(path.join(process.cwd(), "public", "uploads"))
-);
+// File uploads are handled via Cloudinary
 
 app.get("/", (req, res) => {
   res.json({ message: "Backend API is running" });
 });
 
-app.get("/trees", async (req, res) => {
+app.get("/api/trees/all", async (req, res) => {
   const trees = await prisma.tree.findMany();
   res.json(trees);
 });
@@ -73,7 +70,6 @@ app.use("/api/trees", treesRoute);
 app.use("/api/treepictures", treePicturesRoute);
 app.use("/api/roads", roadsRoute);
 app.use("/api/roadpictures", roadPicturesRoute);
-app.use("/api/roads", roadPicturesRoute);
 app.use("/api/register", registerRoute);
 app.use("/api/login", loginRoute);
 app.use("/api/reports", reportsRoute);
