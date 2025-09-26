@@ -95,25 +95,12 @@ app.get('/api/ping', (req, res) => {
 app.get("/", (req, res) => {
   res.json({ message: "Backend API is running" });
 });
-
-app.get("/api/trees/all", async (req, res) => {
-  const trees = await prisma.tree.findMany();
-  res.json(trees);
+// Root/status endpoint is intentionally lightweight.
+app.get("/", (req, res) => {
+  res.json({ message: "Backend API is running" });
 });
 
-app.use("/api/trees", treesRoute);
-app.use("/api/treepictures", treePicturesRoute);
-app.use("/api/roads", roadsRoute);
-app.use("/api/roadpictures", roadPicturesRoute);
-app.use("/api/register", registerRoute);
-app.use("/api/login", loginRoute);
-app.use("/api/reports", reportsRoute);
-app.use("/api/reportpictures", reportPicturesRoute);
-app.use("/api/profile", profileRoute);
-
 // Export a serverless handler for platforms like Vercel that expect a function entry.
-// This keeps local usage (importing the app) intact while also providing a handler
-// that wraps the Express app for per-invocation execution.
+// The dynamic route loader above is responsible for mounting the heavier routes.
 export const handler = serverless(app);
-// Export default for compatibility with some Vercel entrypoint expectations
 export default handler;
