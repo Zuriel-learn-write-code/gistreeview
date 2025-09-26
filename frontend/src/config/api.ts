@@ -16,7 +16,21 @@ export const API_BASE = (() => {
   const resolved = v || maybeGlobal;
   if (resolved) return resolved;
 
-  // Fallback to localhost for dev
+  // If running in a browser, prefer the frontend origin so requests are relative
+  // to the same host. This avoids accidentally targeting localhost when the
+  // build didn't embed VITE_API_BASE (for example, if the env var wasn't set
+  // during the production build). Only fall back to localhost as an explicit
+  // development safety net.
+  try {
+    if (typeof window !== "undefined" && window.location && window.location.origin) {
+      return window.location.origin;
+    }
+  } catch (e) {
+    // ignore
+    void e;
+  }
+
+  // Final fallback for non-browser runtime (e.g. SSR/local tooling)
   return "http://localhost:4000";
 })();
 
