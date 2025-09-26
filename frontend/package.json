@@ -13,6 +13,7 @@
     "@tailwindcss/postcss": "^4.1.13",
     "@types/leaflet.fullscreen": "^1.0.8",
     "@types/styled-components": "^5.1.26",
+    "autoprefixer": "^10.4.21",
     "flatpickr": "^4.6.13",
     "i18next": "^22.5.1",
     "leaflet": "^1.9.4",
