@@ -5,6 +5,11 @@ import bcrypt from "bcryptjs";
 const router = express.Router();
 const prisma = new PrismaClient();
 
+// GET /api/login -> return useful message so visiting this URL in a browser is informative
+router.get('/', (req, res) => {
+  res.status(405).json({ error: 'Method Not Allowed. Use POST /api/login with JSON body { email, password }' });
+});
+
 // POST /api/login
 router.post("/", async (req, res) => {
   const { email, password } = req.body;

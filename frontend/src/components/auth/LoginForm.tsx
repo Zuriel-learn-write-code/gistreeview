@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { EyeCloseIcon, EyeIcon } from "../../icons";
 import Button from "../ui/button/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setUserData } from "../../utils/auth";
 import { usePreloader } from "../../context/PreloaderContext";
 import { apiUrl } from "../../config/api";
@@ -13,6 +13,7 @@ export default function LoginForm() {
   const [error, setError] = useState("");
   const { setShowPreloader } = usePreloader();
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -61,11 +62,10 @@ export default function LoginForm() {
             email: user.email,
           });
 
-          // Show preloader for 3 seconds then redirect everyone to /user/map
+          // Show preloader for 3 seconds then navigate to /user/map using SPA navigation
           setShowPreloader(true);
           setTimeout(() => {
-            // Use relative navigation to work on deployed domains
-            window.location.href = `/user/map`;
+            navigate('/user/map');
           }, 3000);
         } catch (e) {
           console.error("Error parsing user data:", e);
