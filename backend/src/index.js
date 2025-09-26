@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from "express";
 import { PrismaClient } from "@prisma/client";
 import registerRoute from "./routes/register.js";
@@ -16,7 +17,20 @@ const app = express();
 const prisma = new PrismaClient();
 
 import path from "path";
-app.use(cors());
+
+// Configure CORS origins via env var for easier deployment configuration on Vercel.
+const defaultOrigins = [
+  "http://localhost:4000",
+  "http://localhost:5173",
+  "https://gistreeview.vercel.app"
+];
+
+let allowedOrigins = defaultOrigins;
+if (process.env.ALLOWED_ORIGINS) {
+  allowedOrigins = process.env.ALLOWED_ORIGINS.split(",").map(s => s.trim()).filter(Boolean);
+}
+
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 // Serve uploads statically
 app.use(

@@ -1,0 +1,11 @@
+{
+    // Workspace setting: set Git Bash as default integrated terminal on Windows.
+    // If Git is installed in a different location, update the "path" accordingly.
+    "terminal.integrated.profiles.windows": {
+        "Git Bash": {
+            "path": "C:\\Program Files\\Git\\bin\\bash.exe",
+            "args": ["--login", "-i"]
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "Git Bash"
+}
