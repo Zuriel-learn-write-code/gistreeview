@@ -57,6 +57,12 @@ app.use(cors(corsOptions));
 app.use(express.json());
 // File uploads are handled via Cloudinary
 
+// Lightweight health endpoint to help measure cold-starts and verify CORS quickly.
+// This intentionally avoids Prisma/database access so it should return fast.
+app.get('/api/ping', (req, res) => {
+  res.json({ ok: true, now: new Date().toISOString() });
+});
+
 app.get("/", (req, res) => {
   res.json({ message: "Backend API is running" });
 });
