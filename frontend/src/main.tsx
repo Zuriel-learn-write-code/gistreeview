@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import "swiper/css";
+import "swiper/swiper-bundle.css";
 import "flatpickr/dist/flatpickr.css";
 import "./i18n";
 import App from "./App.tsx";
