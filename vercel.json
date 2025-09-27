@@ -17,6 +17,10 @@
       "dest": "backend/api/ping.js"
     },
     {
+      "src": "/api/logtest",
+      "dest": "backend/api/logtest.js"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "backend/api/index.js"
     },
