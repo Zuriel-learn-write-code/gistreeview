@@ -1,10 +1,9 @@
 import express from "express";
-import { PrismaClient } from "@prisma/client";
+import prisma from "../prismaClient.js";
 import { uploadTreePicture } from "../middleware/upload.js";
 import path from "path";
 import fs from "fs";
 const router = express.Router();
-const prisma = new PrismaClient();
 
 // GET /api/treepictures - ambil semua gambar pohon
 router.get("/treepictures", async (req, res) => {
