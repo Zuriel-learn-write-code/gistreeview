@@ -42,6 +42,8 @@ app.get("/", (req, res) => {
   res.json({ message: "Backend API is running" });
 });
 
+// (diagnostic code removed)
+
 // Example: get all trees (assuming model Tree exists)
 app.get("/trees", async (req, res) => {
   const trees = await prisma.tree.findMany();

@@ -64,6 +64,12 @@ app.get("/", (req, res) => {
   res.json({ message: "Backend API is running" });
 });
 
+// Diagnostic endpoint to help debug DB connectivity / DNS issues when deployed.
+// - Performs DNS lookup for the DB hostname
+// - Attempts a TCP connection to the resolved IP on the DB port
+// - Attempts a short Prisma connect to validate credentials/network
+// (db-check diagnostic removed - restored to original state)
+
 app.get("/trees", async (req, res) => {
   const trees = await prisma.tree.findMany();
   res.json(trees);
