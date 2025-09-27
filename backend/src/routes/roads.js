@@ -36,6 +36,7 @@ router.get("/", async (req, res) => {
     }));
     res.json(withHex);
   } catch (error) {
+    console.error('Error in GET /api/roads:', error?.message || error);
     res.status(500).json({ error: "Failed to fetch roads" });
   }
 });
@@ -116,7 +117,7 @@ router.get("/geojson", async (req, res) => {
       features: features.filter(f => f.geometry) // Only include features with valid geometry
     });
   } catch (error) {
-    console.error('Error in /geojson:', error);
+    console.error('Error in /geojson:', error?.message || error);
     res.status(500).json({ error: 'Failed to fetch roads' });
   }
 });
@@ -197,7 +198,7 @@ router.get('/with-treecount', async (req, res) => {
       features: features.filter(f => f.geometry)
     });
   } catch (error) {
-    console.error('Error in /with-treecount:', error);
+    console.error('Error in /with-treecount:', error?.message || error);
     res.status(500).json({ error: 'Failed to fetch roads with tree counts' });
   }
 });
@@ -208,6 +209,7 @@ router.post("/", async (req, res) => {
     const road = await prisma.road.create({ data: req.body });
     res.json(road);
   } catch (error) {
+    console.error('Error in POST /api/roads:', error?.message || error);
     res.status(500).json({ error: "Failed to create road" });
   }
 });
@@ -237,6 +239,7 @@ router.put("/:id", async (req, res) => {
     const road = await prisma.road.update({ where: { id }, data: payload });
     res.json(road);
   } catch (error) {
+    console.error('Error in PUT /api/roads/:id:', error?.message || error);
     res.status(500).json({ error: "Failed to update road" });
   }
 });
@@ -248,6 +251,7 @@ router.delete("/:id", async (req, res) => {
     await prisma.road.delete({ where: { id } });
     res.json({ success: true });
   } catch (error) {
+    console.error('Error in DELETE /api/roads/:id:', error?.message || error);
     res.status(404).json({ error: "Road not found" });
   }
 });

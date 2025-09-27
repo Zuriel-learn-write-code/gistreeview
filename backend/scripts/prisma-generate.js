@@ -22,9 +22,10 @@ try {
       process.exit(1);
     }
     process.exit(res.status || 0);
-  } else {
-    console.error('Prisma binary not found at', prismaBin);
-    process.exit(1);
+    } else {
+    console.warn('Prisma binary not found at', prismaBin, '- skipping prisma generate (likely running in production without devDependencies).');
+    // Do not fail the install when prisma is not present (e.g., production installs that skip devDependencies).
+    process.exit(0);
   }
 } catch (err) {
   console.error('Unexpected error in prisma-generate script:', err);
