@@ -1,10 +1,11 @@
 import express from "express";
-import prisma from "../prismaClient.js";
+import { PrismaClient } from "@prisma/client";
 import { uploadRoadPicture } from "../middleware/upload.js";
 
 import path from "path";
 import fs from "fs";
 const router = express.Router();
+const prisma = new PrismaClient();
 // POST /api/roads/:id/pictures - upload gambar jalan
 router.post(
   "/:id/pictures",

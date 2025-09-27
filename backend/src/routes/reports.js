@@ -1,9 +1,3 @@
-import express from "express";
-import prisma from "../prismaClient.js";
-import { uploadReportPicture } from "../middleware/upload.js";
-import path from "path";
-import fs from "fs";
-
 const router = express.Router();
 
 // GET /api/reports/status/:status - get reports by status
@@ -26,6 +20,12 @@ router.get("/status/:status", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch reports by status" });
   }
 });
+import prisma from "../prismaClient.js";
+import express from "express";
+import { uploadReportPicture } from "../middleware/upload.js";
+import path from "path";
+import fs from "fs";
+
 // POST /api/reports/:id/pictures - upload gambar report (reportpictures)
 router.post(
   "/:id/pictures",

@@ -1,13 +1,12 @@
 {
   "name": "gistreeview-backend",
-  "version": "3.0.1",
+  "version": "1.0.0",
   "main": "src/index.js",
   "type": "module",
   "scripts": {
     "dev": "nodemon src/index.js",
     "start": "node src/index.js",
-    "prisma": "prisma",
-    "postinstall": "node scripts/prisma-generate.js"
+    "prisma": "prisma"
   },
   "dependencies": {
     "@prisma/client": "^5.0.0",

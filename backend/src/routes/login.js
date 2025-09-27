@@ -1,8 +1,9 @@
 import express from "express";
-import prisma from "../prismaClient.js";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 const router = express.Router();
+const prisma = new PrismaClient();
 
 // GET /api/login -> return useful message so visiting this URL in a browser is informative
 router.get('/', (req, res) => {

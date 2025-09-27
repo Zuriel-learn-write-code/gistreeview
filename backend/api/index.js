@@ -1,10 +1,21 @@
 import 'dotenv/config';
 import express from "express";
+import { PrismaClient } from "@prisma/client";
+import registerRoute from "../src/routes/register.js";
+import loginRoute from "../src/routes/login.js";
+import profileRoute from "../src/routes/profile.js";
+import treesRoute from "../src/routes/trees.js";
+import treePicturesRoute from "../src/routes/treepictures.js";
+import roadsRoute from "../src/routes/roads.js";
+import roadPicturesRoute from "../src/routes/roadpictures.js";
+import reportsRoute from "../src/routes/reports.js";
+import reportPicturesRoute from "../src/routes/reportpictures.js";
 import cors from "cors";
 import path from "path";
 import serverless from "serverless-http";
 
 const app = express();
+const prisma = new PrismaClient();
 
 // Configure CORS origins via env var for easier deployment configuration on Vercel.
 // Set ALLOWED_ORIGINS as a comma-separated list (e.g. "https://my-frontend.vercel.app,https://other.com").
@@ -44,63 +55,34 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
-// File uploads are handled via Cloudinary
-// Lightweight health endpoint to help measure cold-starts and verify CORS quickly.
-// This intentionally avoids Prisma/database access so it should return fast.
-app.get('/api/ping', (req, res) => {
-  res.json({ ok: true, now: new Date().toISOString() });
-});
-
-// Dynamically import and mount route modules after registering the quick ping route.
-// This allows /api/ping to respond quickly even if route modules (which may
-// initialize Prisma or other network resources) are slow or failing.
-(async () => {
-  try {
-    const [
-      { default: registerRoute },
-      { default: loginRoute },
-      { default: profileRoute },
-      { default: treesRoute },
-      { default: treePicturesRoute },
-      { default: roadsRoute },
-      { default: roadPicturesRoute },
-      { default: reportsRoute },
-      { default: reportPicturesRoute }
-    ] = await Promise.all([
-      import('../src/routes/register.js'),
-      import('../src/routes/login.js'),
-      import('../src/routes/profile.js'),
-      import('../src/routes/trees.js'),
-      import('../src/routes/treepictures.js'),
-      import('../src/routes/roads.js'),
-      import('../src/routes/roadpictures.js'),
-      import('../src/routes/reports.js'),
-      import('../src/routes/reportpictures.js')
-    ]);
-
-    app.use('/api/trees', treesRoute);
-    app.use('/api/treepictures', treePicturesRoute);
-    app.use('/api/roads', roadsRoute);
-    app.use('/api/roadpictures', roadPicturesRoute);
-    app.use('/api/register', registerRoute);
-    app.use('/api/login', loginRoute);
-    app.use('/api/reports', reportsRoute);
-    app.use('/api/reportpictures', reportPicturesRoute);
-    app.use('/api/profile', profileRoute);
-  } catch (e) {
-    console.error('Failed to dynamically load routes:', e);
-  }
-})();
+app.use(
+  "/uploads",
+  express.static(path.join(process.cwd(), "public", "uploads"))
+);
 
 app.get("/", (req, res) => {
   res.json({ message: "Backend API is running" });
 });
-// Root/status endpoint is intentionally lightweight.
-app.get("/", (req, res) => {
-  res.json({ message: "Backend API is running" });
+
+app.get("/trees", async (req, res) => {
+  const trees = await prisma.tree.findMany();
+  res.json(trees);
 });
+
+app.use("/api/trees", treesRoute);
+app.use("/api/treepictures", treePicturesRoute);
+app.use("/api/roads", roadsRoute);
+app.use("/api/roadpictures", roadPicturesRoute);
+app.use("/api/roads", roadPicturesRoute);
+app.use("/api/register", registerRoute);
+app.use("/api/login", loginRoute);
+app.use("/api/reports", reportsRoute);
+app.use("/api/reportpictures", reportPicturesRoute);
+app.use("/api/profile", profileRoute);
+
+export default app;
 
 // Export a serverless handler for platforms like Vercel that expect a function entry.
-// The dynamic route loader above is responsible for mounting the heavier routes.
+// This keeps local usage (importing the app) intact while also providing a handler
+// that wraps the Express app for per-invocation execution.
 export const handler = serverless(app);
-export default handler;
