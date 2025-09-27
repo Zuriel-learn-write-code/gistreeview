@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_USER: pguser
+      POSTGRES_DB: gistreeview_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  pgbouncer:
+    image: edoburu/pgbouncer:1.17.0
+    depends_on:
+      - db
+    ports:
+      - "6432:6432" # PgBouncer listens on 6432
+    environment:
+      - DATABASE_URL=postgres://pguser:example@db:5432/gistreeview_dev
+    volumes:
+      - ./pgbouncer.ini:/etc/pgbouncer/pgbouncer.ini:ro
+      - ./userlist.txt:/etc/pgbouncer/userlist.txt:ro
+    command: ["pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
+
+volumes:
+  db_data:

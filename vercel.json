@@ -13,6 +13,10 @@
   ],
   "routes": [
     {
+      "src": "/api/ping",
+      "dest": "backend/api/ping.js"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "backend/api/index.js"
     },

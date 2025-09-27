@@ -6,7 +6,7 @@ if (process.env.NODE_ENV === 'development' || process.argv.some(arg => arg.inclu
   dotenv.config();
 }
 import express from "express";
-import { PrismaClient } from "@prisma/client";
+import prisma from "./prismaClient.js";
 import registerRoute from "./routes/register.js";
 import loginRoute from "./routes/login.js";
 import profileRoute from "./routes/profile.js";
@@ -20,9 +20,9 @@ import reportPicturesRoute from "./routes/reportpictures.js";
 import cors from "cors";
 
 const app = express();
-const prisma = new PrismaClient();
 
 import path from "path";
+import serverless from 'serverless-http';
 
 // Configure CORS origins via env var for easier deployment configuration on Vercel.
 const defaultOrigins = [
@@ -76,6 +76,13 @@ app.use("/api/reportpictures", reportPicturesRoute);
 app.use("/api/profile", profileRoute);
 
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Only call listen when this file is run directly (node src/index.js) or in dev.
+if (process.env.NODE_ENV === 'development' || process.argv.some(arg => arg.includes('nodemon')) || process.env.FORCE_LISTEN === 'true') {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+// Export serverless handler (works with Vercel / AWS Lambda / etc.)
+export const handler = serverless(app);
+export default handler;

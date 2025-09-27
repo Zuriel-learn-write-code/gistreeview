@@ -1,7 +1,6 @@
 import express from "express";
-import { PrismaClient, Prisma } from "@prisma/client";
+import prisma from "../prismaClient.js";
 const router = express.Router();
-const prisma = new PrismaClient();
 
 // Palette mapping - must match frontend `PALETTE` order
 const PALETTE = [
