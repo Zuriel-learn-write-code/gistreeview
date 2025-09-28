@@ -4,7 +4,8 @@ import { apiUrl } from "../../config/api";
 import Alert from "../../components/ui/alert/Alert";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import PageMeta from "../../components/common/PageMeta";
-import TableTrees from '../../components/tables/BasicTables/TableTrees';
+import TableTrees from "../../components/tables/BasicTables/TableTrees";
+import LoadingStatus from "../../components/admin/LoadingStatus";
 
 // (String similarity helpers removed; not needed after modal/form removal)
 
@@ -44,9 +45,16 @@ export default function DataTree() {
     message: string;
   }>({ show: false, variant: "success", title: "", message: "" });
   const [trees, setTrees] = useState<Tree[]>([]);
-  const [treePictures, setTreePictures] = useState<{ id: string; url: string; treeId: string }[]>([]);
+  const [treePictures, setTreePictures] = useState<
+    { id: string; url: string; treeId: string }[]
+  >([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [statusFilters, setStatusFilters] = useState({ good: true, warning: true, danger: true });
+  const [statusFilters, setStatusFilters] = useState({
+    good: true,
+    warning: true,
+    danger: true,
+  });
   const [entries, setEntries] = useState(10);
   const [page, setPage] = useState(1);
 
@@ -61,9 +69,12 @@ export default function DataTree() {
   const groupedTrees = initialFilteredTrees.reduce((acc, tree) => {
     try {
       // Normalize species name
-      const speciesName = !tree.species || tree.species.toLowerCase() === 'unknown' || tree.species.trim() === '' 
-        ? 'Unknown'
-        : tree.species;
+      const speciesName =
+        !tree.species ||
+        tree.species.toLowerCase() === "unknown" ||
+        tree.species.trim() === ""
+          ? "Unknown"
+          : tree.species;
 
       // If we haven't seen this species before, create a new entry
       if (!acc[speciesName]) {
@@ -71,7 +82,7 @@ export default function DataTree() {
           ...tree,
           species: speciesName,
           // Keep track of all IDs for this species group
-          groupedIds: [tree.id]
+          groupedIds: [tree.id],
         };
       } else {
         // If we've seen this species before, update the grouped IDs
@@ -95,13 +106,15 @@ export default function DataTree() {
       (tree.species || "").toLowerCase().includes(query) ||
       (tree.road?.nameroad || "").toLowerCase().includes(query) ||
       (tree.description || "").toLowerCase().includes(query);
-    const statusOk = tree.status ? statusFilters[tree.status as 'good' | 'warning' | 'danger'] : true;
+    const statusOk = tree.status
+      ? statusFilters[tree.status as "good" | "warning" | "danger"]
+      : true;
     return matchesSearch && statusOk;
   });
 
   const total = filteredTrees.length;
   const pagedTrees = filteredTrees.slice((page - 1) * entries, page * entries);
-  
+
   // Removed unused variables: totalPages, pagedTrees
 
   // Removed fetch roads effect
@@ -110,19 +123,18 @@ export default function DataTree() {
 
   // Fetch trees
   useEffect(() => {
-    fetch(apiUrl("/api/trees"))
-      .then((res) => res.json())
-      .then((data) => {
-        setTrees(data);
-      });
-    fetch(apiUrl("/api/treepictures"))
-      .then((res) => res.json())
-      .then((data) => {
-        setTreePictures(data);
-      });
+    setLoading(true);
+    Promise.all([
+      fetch(apiUrl("/api/trees"))
+        .then((r) => r.json())
+        .then((d) => setTrees(d))
+        .catch(() => setTrees([])),
+      fetch(apiUrl("/api/treepictures"))
+        .then((r) => r.json())
+        .then((d) => setTreePictures(d))
+        .catch(() => setTreePictures([])),
+    ]).finally(() => setLoading(false));
   }, []);
-
-  
 
   // delete handlers removed (action buttons removed)
 
@@ -164,13 +176,18 @@ export default function DataTree() {
         description="Tabel data pohon dan menu edit/tambah/hapus"
       />
       <PageBreadcrumb pageTitle="Data Tree" />
-  <div className="rounded-2xl border border-gray-200 bg-white px-5 py-7 dark:border-gray-800 dark:bg-white/[0.03] xl:px-10 xl:py-12">
+      <LoadingStatus loading={loading} />
+      <div className="rounded-2xl border border-gray-200 bg-white px-5 py-7 dark:border-gray-800 dark:bg-white/[0.03] xl:px-10 xl:py-12">
         {/* Control bar: Show entries left, status switches + search right */}
         <div className="mb-4 flex flex-wrap items-center justify-between gap-2 px-2 md:px-4">
           <div className="flex items-center gap-3 md:gap-4">
+            <label htmlFor="dt-entries" className="sr-only">
+              Show entries
+            </label>
             <span className="text-gray-500 dark:text-gray-400">Show</span>
             <div className="relative">
               <select
+                id="dt-entries"
                 className="h-11 w-20 pl-4 pr-8 rounded-lg border appearance-none text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 bg-transparent text-gray-800 border-gray-300 focus:border-brand-300 focus:ring-brand-500/20 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
                 value={entries}
                 onChange={(e) => {
@@ -185,7 +202,15 @@ export default function DataTree() {
                 ))}
               </select>
               <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
-                <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6"/></svg>
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+                  <path
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 9l6 6 6-6"
+                  />
+                </svg>
               </span>
             </div>
             <span className="text-gray-500 dark:text-gray-400">entries</span>
@@ -195,23 +220,34 @@ export default function DataTree() {
               label="Good"
               color="green"
               defaultChecked={statusFilters.good}
-              onChange={(checked) => setStatusFilters((prev) => ({ ...prev, good: checked }))}
+              onChange={(checked) =>
+                setStatusFilters((prev) => ({ ...prev, good: checked }))
+              }
             />
             <Switch
               label="Warning"
               color="orange"
               defaultChecked={statusFilters.warning}
-              onChange={(checked) => setStatusFilters((prev) => ({ ...prev, warning: checked }))}
+              onChange={(checked) =>
+                setStatusFilters((prev) => ({ ...prev, warning: checked }))
+              }
             />
             <Switch
               label="Danger"
               color="red"
               defaultChecked={statusFilters.danger}
-              onChange={(checked) => setStatusFilters((prev) => ({ ...prev, danger: checked }))}
+              onChange={(checked) =>
+                setStatusFilters((prev) => ({ ...prev, danger: checked }))
+              }
             />
             <div className="relative w-full max-w-xs">
+              <label htmlFor="dt-search" className="sr-only">
+                Search trees
+              </label>
               <input
                 className="h-11 w-full pl-10 pr-4 rounded-lg border appearance-none text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 bg-transparent text-gray-800 border-gray-300 focus:border-brand-300 focus:ring-brand-500/20 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
+                id="dt-search"
+                name="dt-search"
                 placeholder="Search by Name or Description"
                 value={search}
                 onChange={(e) => {
@@ -221,13 +257,28 @@ export default function DataTree() {
                 style={{ paddingLeft: 36 }}
               />
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-400 pointer-events-none">
-                <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/></svg>
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+                  <path
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"
+                  />
+                </svg>
               </span>
             </div>
           </div>
         </div>
 
-  <TableTrees trees={pagedTrees} treePictures={treePictures} page={page} setPage={setPage} entries={entries} total={total} />
+        <TableTrees
+          trees={pagedTrees}
+          treePictures={treePictures}
+          page={page}
+          setPage={setPage}
+          entries={entries}
+          total={total}
+        />
       </div>
     </div>
   );

@@ -222,10 +222,14 @@ const TreeReportDetailOfficer: React.FC<TreeReportDetailOfficerProps> = ({
             <form className="grid grid-cols-1 gap-4 text-sm">
               {/* ID */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-100">
+                <label
+                  htmlFor={`tro-tree-id`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-100"
+                >
                   ID Pohon
                 </label>
                 <input
+                  id={`tro-tree-id`}
                   type="text"
                   className="flex-1 rounded border border-gray-200 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800"
                   value={tree.id}
@@ -234,10 +238,14 @@ const TreeReportDetailOfficer: React.FC<TreeReportDetailOfficerProps> = ({
               </div>
               {/* Umur */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-100">
+                <label
+                  htmlFor={`tro-age`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-100"
+                >
                   Umur
                 </label>
                 <input
+                  id={`tro-age`}
                   type="number"
                   className="flex-1 rounded border border-gray-200 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800"
                   value={tree.age}
@@ -246,10 +254,14 @@ const TreeReportDetailOfficer: React.FC<TreeReportDetailOfficerProps> = ({
               </div>
               {/* Diameter Batang */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-100">
+                <label
+                  htmlFor={`tro-trunk`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-100"
+                >
                   Diameter Batang
                 </label>
                 <input
+                  id={`tro-trunk`}
                   type="number"
                   className="flex-1 rounded border border-gray-200 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800"
                   value={tree.trunk_diameter}
@@ -258,10 +270,14 @@ const TreeReportDetailOfficer: React.FC<TreeReportDetailOfficerProps> = ({
               </div>
               {/* Lebar Cabang */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-100">
+                <label
+                  htmlFor={`tro-lbranch`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-100"
+                >
                   Lebar Cabang
                 </label>
                 <input
+                  id={`tro-lbranch`}
                   type="number"
                   className="flex-1 rounded border border-gray-200 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800"
                   value={tree.lbranch_width}
@@ -270,10 +286,14 @@ const TreeReportDetailOfficer: React.FC<TreeReportDetailOfficerProps> = ({
               </div>
               {/* Kepemilikan */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-100">
+                <label
+                  htmlFor={`tro-ownership`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-100"
+                >
                   Kepemilikan
                 </label>
                 <input
+                  id={`tro-ownership`}
                   type="text"
                   className="flex-1 rounded border border-gray-200 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800"
                   value={tree.ownership}
@@ -282,10 +302,14 @@ const TreeReportDetailOfficer: React.FC<TreeReportDetailOfficerProps> = ({
               </div>
               {/* Nama Jalan */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-100">
+                <label
+                  htmlFor={`tro-roadname`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-100"
+                >
                   Nama Jalan
                 </label>
                 <input
+                  id={`tro-roadname`}
                   type="text"
                   className="flex-1 rounded border border-gray-200 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800"
                   value={tree.road?.nameroad || "Tidak ada nama jalan"}
@@ -294,10 +318,14 @@ const TreeReportDetailOfficer: React.FC<TreeReportDetailOfficerProps> = ({
               </div>
               {/* Deskripsi */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-100">
+                <label
+                  htmlFor={`tro-desc`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-100"
+                >
                   Deskripsi
                 </label>
                 <textarea
+                  id={`tro-desc`}
                   className="flex-1 rounded border border-gray-200 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800"
                   value={tree.description}
                   readOnly
@@ -305,9 +333,9 @@ const TreeReportDetailOfficer: React.FC<TreeReportDetailOfficerProps> = ({
               </div>
               {/* Foto Pohon */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-100">
+                <span className="w-32 font-semibold text-gray-700 dark:text-gray-100">
                   Foto Pohon
-                </label>
+                </span>
                 <div className="flex gap-3">
                   {(Array.isArray(treePictures)
                     ? treePictures.filter((pic) => pic.treeId === tree.id)
@@ -376,10 +404,14 @@ const TreeReportDetailOfficer: React.FC<TreeReportDetailOfficerProps> = ({
             <form className="grid grid-cols-1 gap-4 text-sm">
               {/* ID report*/}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor={`tro-report-id`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-200"
+                >
                   ID Report
                 </label>
                 <input
+                  id={`tro-report-id`}
                   type="text"
                   className="flex-1 rounded border border-gray-200 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800"
                   value={
@@ -390,10 +422,14 @@ const TreeReportDetailOfficer: React.FC<TreeReportDetailOfficerProps> = ({
               </div>
               {/* pelapor*/}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor={`tro-report-user`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-200"
+                >
                   Pelapor
                 </label>
                 <input
+                  id={`tro-report-user`}
                   type="text"
                   className="flex-1 rounded border border-gray-200 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800"
                   value={(() => {
@@ -409,10 +445,14 @@ const TreeReportDetailOfficer: React.FC<TreeReportDetailOfficerProps> = ({
               </div>
               {/* verified by */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor={`tro-verified-by`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-200"
+                >
                   verified by
                 </label>
                 <input
+                  id={`tro-verified-by`}
                   type="text"
                   className="flex-1 rounded border border-gray-200 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800"
                   value={(() => {
@@ -431,10 +471,14 @@ const TreeReportDetailOfficer: React.FC<TreeReportDetailOfficerProps> = ({
               </div>
               {/* resolved by */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor={`tro-resolved-by`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-200"
+                >
                   resolved by
                 </label>
                 <input
+                  id={`tro-resolved-by`}
                   type="text"
                   className="flex-1 rounded border border-gray-200 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800"
                   value={(() => {
@@ -453,10 +497,14 @@ const TreeReportDetailOfficer: React.FC<TreeReportDetailOfficerProps> = ({
               </div>
               {/*  resolved at */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor={`tro-resolved-at`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-200"
+                >
                   resolved at
                 </label>
                 <input
+                  id={`tro-resolved-at`}
                   type="text"
                   className="flex-1 rounded border border-gray-200 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800"
                   value={
@@ -468,10 +516,14 @@ const TreeReportDetailOfficer: React.FC<TreeReportDetailOfficerProps> = ({
               </div>
               {/* Status report */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor={`tro-report-status`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-200"
+                >
                   Status report
                 </label>
                 <input
+                  id={`tro-report-status`}
                   type="text"
                   className="flex-1 rounded border border-gray-200 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800"
                   value={
@@ -484,10 +536,14 @@ const TreeReportDetailOfficer: React.FC<TreeReportDetailOfficerProps> = ({
 
               {/* Deskripsi report */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor={`tro-report-desc`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-200"
+                >
                   Deskripsi report
                 </label>
                 <textarea
+                  id={`tro-report-desc`}
                   className="flex-1 rounded border border-gray-200 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800"
                   value={
                     filteredReports.find((r) => r.treeId === tree.id)
@@ -498,9 +554,9 @@ const TreeReportDetailOfficer: React.FC<TreeReportDetailOfficerProps> = ({
               </div>
               {/* Foto report pohon */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                <span className="w-32 font-semibold text-gray-700 dark:text-gray-200">
                   Foto report pohon
-                </label>
+                </span>
                 {(() => {
                   const report = filteredReports.find(
                     (r) => r.treeId === tree.id
@@ -539,10 +595,14 @@ const TreeReportDetailOfficer: React.FC<TreeReportDetailOfficerProps> = ({
               {/* Update Deskripsi */}
               {report?.status !== "resolved" && (
                 <div className="flex items-center gap-4 mt-5">
-                  <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                  <label
+                    htmlFor={`tro-edit-desc`}
+                    className="w-32 font-semibold text-gray-700 dark:text-gray-200"
+                  >
                     Update Deskripsi
                   </label>
                   <textarea
+                    id={`tro-edit-desc`}
                     className="flex-1 rounded border border-gray-200 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800"
                     value={editDescription}
                     onChange={(e) => {
@@ -562,11 +622,15 @@ const TreeReportDetailOfficer: React.FC<TreeReportDetailOfficerProps> = ({
             {report?.status !== "resolved" && (
               <div className="relative">
                 <div className="flex items-center gap-4 mt-5">
-                  <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                  <label
+                    htmlFor="tro-select-status"
+                    className="w-32 font-semibold text-gray-700 dark:text-gray-200"
+                  >
                     Ganti Status
                   </label>
                   <div>
                     <select
+                      id="tro-select-status"
                       className="flex-1 rounded border border-gray-200 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800"
                       value={selectedStatus}
                       onChange={(e) => handleStatusChange(e.target.value)}
@@ -580,11 +644,15 @@ const TreeReportDetailOfficer: React.FC<TreeReportDetailOfficerProps> = ({
                 {/* Jika memilih resolved, tampilkan dropdown status pohon */}
                 {selectedStatus === "resolved" && (
                   <div className="flex items-center gap-4 mt-5">
-                    <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                    <label
+                      htmlFor="tro-select-tree-status"
+                      className="w-32 font-semibold text-gray-700 dark:text-gray-200"
+                    >
                       Status Pohon
                     </label>
                     <div>
                       <select
+                        id="tro-select-tree-status"
                         className="flex-1 rounded border border-gray-200 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800"
                         value={treeResolvedStatus}
                         onChange={(e) =>

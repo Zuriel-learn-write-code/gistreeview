@@ -232,10 +232,14 @@ const TreeReportDetail: React.FC<TreeReportDetailProps> = ({
             <form className="grid grid-cols-1 gap-4 text-sm">
               {/* ID */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap">
+                <label
+                  htmlFor={`trd-tree-id`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap"
+                >
                   ID Pohon
                 </label>
                 <input
+                  id={`trd-tree-id`}
                   type="text"
                   className="flex-1 rounded border border-gray-300 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 dark:focus:border-blue-400 dark:focus:ring-blue-900 transition-colors"
                   value={tree.id}
@@ -245,62 +249,82 @@ const TreeReportDetail: React.FC<TreeReportDetailProps> = ({
 
               {/* Umur */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor={`trd-age`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-200"
+                >
                   Umur
                 </label>
                 <input
+                  id={`trd-age`}
                   type="number"
                   className="flex-1 rounded border border-gray-300 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 dark:focus:border-blue-400 dark:focus:ring-blue-900 transition-colors"
-                  value={tree.age}
+                  value={tree.age ?? ""}
                   readOnly
                 />
               </div>
 
               {/* Diameter Batang */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor={`trd-trunk`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-200"
+                >
                   Diameter Batang
                 </label>
                 <input
+                  id={`trd-trunk`}
                   type="number"
                   className="flex-1 rounded border border-gray-300 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 dark:focus:border-blue-400 dark:focus:ring-blue-900 transition-colors"
-                  value={tree.trunk_diameter}
+                  value={tree.trunk_diameter ?? ""}
                   readOnly
                 />
               </div>
 
               {/* Lebar Cabang */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor={`trd-lbranch`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-200"
+                >
                   Lebar Cabang
                 </label>
                 <input
+                  id={`trd-lbranch`}
                   type="number"
                   className="flex-1 rounded border border-gray-300 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 dark:focus:border-blue-400 dark:focus:ring-blue-900 transition-colors"
-                  value={tree.lbranch_width}
+                  value={tree.lbranch_width ?? ""}
                   readOnly
                 />
               </div>
 
               {/* Kepemilikan */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor={`trd-ownership`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-200"
+                >
                   Kepemilikan
                 </label>
                 <input
+                  id={`trd-ownership`}
                   type="text"
                   className="flex-1 rounded border border-gray-300 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 dark:focus:border-blue-400 dark:focus:ring-blue-900 transition-colors"
-                  value={tree.ownership}
+                  value={tree.ownership || ""}
                   readOnly
                 />
               </div>
 
               {/* Nama Jalan */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor={`trd-roadname`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-200"
+                >
                   Nama Jalan
                 </label>
                 <input
+                  id={`trd-roadname`}
                   type="text"
                   className="flex-1 rounded border border-gray-300 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 dark:focus:border-blue-400 dark:focus:ring-blue-900 transition-colors"
                   value={tree.road?.nameroad || "-"}
@@ -310,21 +334,25 @@ const TreeReportDetail: React.FC<TreeReportDetailProps> = ({
 
               {/* Deskripsi */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor={`trd-desc`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-200"
+                >
                   Deskripsi
                 </label>
                 <textarea
+                  id={`trd-desc`}
                   className="flex-1 rounded border border-gray-300 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 dark:focus:border-blue-400 dark:focus:ring-blue-900 transition-colors"
-                  value={tree.description}
+                  value={tree.description || ""}
                   readOnly
                 />
               </div>
 
               {/* Foto Pohon */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                <span className="w-32 font-semibold text-gray-700 dark:text-gray-200">
                   Foto Pohon
-                </label>
+                </span>
                 <div className="flex gap-3">
                   {(Array.isArray(treePictures)
                     ? treePictures.filter((pic) => pic.treeId === tree.id)
@@ -397,10 +425,14 @@ const TreeReportDetail: React.FC<TreeReportDetailProps> = ({
             <form className="grid grid-cols-1 gap-4 text-sm">
               {/* ID report*/}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap">
+                <label
+                  htmlFor={`trd-report-id`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap"
+                >
                   ID Report
                 </label>
                 <input
+                  id={`trd-report-id`}
                   type="text"
                   className="flex-1 rounded border border-gray-300 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 dark:focus:border-blue-400 dark:focus:ring-blue-900 transition-colors"
                   value={report?.id || ""}
@@ -410,10 +442,14 @@ const TreeReportDetail: React.FC<TreeReportDetailProps> = ({
 
               {/* pelapor*/}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor={`trd-report-user`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-200"
+                >
                   Report by
                 </label>
                 <input
+                  id={`trd-report-user`}
                   type="text"
                   className="flex-1 rounded border border-gray-300 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 dark:focus:border-blue-400 dark:focus:ring-blue-900 transition-colors"
                   value={(() => {
@@ -422,7 +458,7 @@ const TreeReportDetail: React.FC<TreeReportDetailProps> = ({
                     const user = users.find((u) => u.id === report.userId);
                     return user
                       ? `${user.firstname} ${user.lastname}`
-                      : report.userId;
+                      : report.userId || "";
                   })()}
                   readOnly
                 />
@@ -430,10 +466,14 @@ const TreeReportDetail: React.FC<TreeReportDetailProps> = ({
 
               {/* verified by */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor={`trd-verified-by`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-200"
+                >
                   verified by
                 </label>
                 <input
+                  id={`trd-verified-by`}
                   type="text"
                   className="flex-1 rounded border border-gray-300 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 dark:focus:border-blue-400 dark:focus:ring-blue-900 transition-colors"
                   value={(() => {
@@ -444,7 +484,7 @@ const TreeReportDetail: React.FC<TreeReportDetailProps> = ({
                     );
                     return user
                       ? `${user.firstname} ${user.lastname}`
-                      : report.verifiedById;
+                      : report.verifiedById || "";
                   })()}
                   readOnly
                 />
@@ -452,10 +492,14 @@ const TreeReportDetail: React.FC<TreeReportDetailProps> = ({
 
               {/* resolved by */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor={`trd-resolved-by`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-200"
+                >
                   resolved by
                 </label>
                 <input
+                  id={`trd-resolved-by`}
                   type="text"
                   className="flex-1 rounded border border-gray-300 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 dark:focus:border-blue-400 dark:focus:ring-blue-900 transition-colors"
                   value={(() => {
@@ -466,7 +510,7 @@ const TreeReportDetail: React.FC<TreeReportDetailProps> = ({
                     );
                     return user
                       ? `${user.firstname} ${user.lastname}`
-                      : report.resolvedById;
+                      : report.resolvedById || "";
                   })()}
                   readOnly
                 />
@@ -474,23 +518,31 @@ const TreeReportDetail: React.FC<TreeReportDetailProps> = ({
 
               {/*  resolved at */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor={`trd-resolved-at`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-200"
+                >
                   resolved at
                 </label>
                 <input
+                  id={`trd-resolved-at`}
                   type="text"
                   className="flex-1 rounded border border-gray-300 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 dark:focus:border-blue-400 dark:focus:ring-blue-900 transition-colors"
-                  value={report?.resolvedAt ?? "-"}
+                  value={report?.resolvedAt ?? ""}
                   readOnly
                 />
               </div>
 
               {/* Status report */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor={`trd-report-status`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-200"
+                >
                   Status report
                 </label>
                 <input
+                  id={`trd-report-status`}
                   type="text"
                   className="flex-1 rounded border border-gray-300 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 dark:focus:border-blue-400 dark:focus:ring-blue-900 transition-colors"
                   value={report?.status || ""}
@@ -500,10 +552,14 @@ const TreeReportDetail: React.FC<TreeReportDetailProps> = ({
 
               {/* Deskripsi report */}
               <div className="flex items-center gap-4">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor={`trd-report-desc`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-200"
+                >
                   Deskripsi report
                 </label>
                 <textarea
+                  id={`trd-report-desc`}
                   className="flex-1 rounded border border-gray-300 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 dark:focus:border-blue-400 dark:focus:ring-blue-900 transition-colors"
                   value={report?.description || ""}
                   readOnly
@@ -533,25 +589,34 @@ const TreeReportDetail: React.FC<TreeReportDetailProps> = ({
                             alt={`Report ${report.id} - ${idx + 1}`}
                             className="w-full h-full object-cover rounded-xl cursor-pointer group-hover:scale-105 transition-transform duration-200"
                             onError={(e) => {
-                              e.currentTarget.src = "/images/report-default.jpg";
+                              e.currentTarget.src =
+                                "/images/report-default.jpg";
                             }}
-                            onClick={() => setPreviewImg(uploadUrl(pic.url, "report"))}
+                            onClick={() =>
+                              setPreviewImg(uploadUrl(pic.url, "report"))
+                            }
                           />
                         </div>
                       ))}
                     </div>
                   ) : (
-                    <span className="text-xs text-gray-400">Tidak ada gambar</span>
+                    <span className="text-xs text-gray-400">
+                      Tidak ada gambar
+                    </span>
                   );
                 })()}
               </div>
 
               {/* Update Deskripsi */}
               <div className="flex items-center gap-4 mt-5">
-                <label className="w-32 font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap">
+                <label
+                  htmlFor={`trd-edit-desc`}
+                  className="w-32 font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap"
+                >
                   Update Deskripsi
                 </label>
                 <textarea
+                  id={`trd-edit-desc`}
                   className="flex-1 rounded border border-gray-300 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 dark:focus:border-blue-400 dark:focus:ring-blue-900 transition-colors"
                   value={editDescription}
                   onChange={(e) => {
@@ -569,7 +634,10 @@ const TreeReportDetail: React.FC<TreeReportDetailProps> = ({
 
             {/* Ganti Status (Dropdown) */}
             <div className="flex items-center gap-4 mt-5">
-              <label className="w-32 font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap">
+              <label
+                htmlFor={`trd-select-status`}
+                className="w-32 font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap"
+              >
                 Ganti Status
               </label>
               <div>
@@ -586,6 +654,7 @@ const TreeReportDetail: React.FC<TreeReportDetailProps> = ({
                   }
                   return (
                     <select
+                      id={`trd-select-status`}
                       className="rounded border border-gray-300 dark:border-gray-700 px-2 py-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 dark:focus:border-blue-400 dark:focus:ring-blue-900 transition-colors"
                       value={selectedStatus}
                       onChange={(e) => handleStatusChange(e.target.value)}

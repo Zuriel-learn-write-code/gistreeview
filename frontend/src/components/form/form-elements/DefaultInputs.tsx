@@ -84,9 +84,10 @@ export default function DefaultInputs() {
           </div>
         </div>
         <div>
-          <Label htmlFor="tm">Input with Payment</Label>
+          <Label htmlFor="card-number">Input with Payment</Label>
           <div className="relative">
             <Input
+              id="card-number"
               type="text"
               placeholder="Card number"
               className="pl-[62px]"

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import TableUsers from "../../components/tables/BasicTables/TableUsers";
 import Switch from "../../components/form/switch/Switch";
-import { SearchIcon } from '../../icons';
+import { SearchIcon } from "../../icons";
 import { apiUrl } from "../../config/api";
 import Alert from "../../components/ui/alert/Alert";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import PageMeta from "../../components/common/PageMeta";
+import LoadingStatus from "../../components/admin/LoadingStatus";
 
 interface User {
   id: string;
@@ -20,7 +21,7 @@ interface User {
   province: string;
   city: string;
   postalcode: string;
-  role: 'admin' | 'officer' | 'user';
+  role: "admin" | "officer" | "user";
   timestamp: string;
 }
 
@@ -28,7 +29,11 @@ export default function DataUser() {
   const [users, setUsers] = useState<User[]>([]);
   const [search, setSearch] = useState("");
   const [editId, setEditId] = useState<string | null>(null);
-  const [roleFilters, setRoleFilters] = useState({ admin: true, officer: true, user: true });
+  const [roleFilters, setRoleFilters] = useState({
+    admin: true,
+    officer: true,
+    user: true,
+  });
   const [form, setForm] = useState<Partial<User>>({});
   // const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -41,6 +46,7 @@ export default function DataUser() {
   }>({ show: false, variant: "success", title: "", message: "" });
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
+  const [loading, setLoading] = useState(true);
   const filteredUsers = users.filter(
     (user) =>
       ((user.firstname?.toLowerCase() || "").includes(search.toLowerCase()) ||
@@ -50,16 +56,16 @@ export default function DataUser() {
       roleFilters[user.role]
   );
   const totalPages = Math.ceil(filteredUsers.length / entries);
-  const pagedUsers = filteredUsers.slice(
-    (page - 1) * entries,
-    page * entries
-  );
+  const pagedUsers = filteredUsers.slice((page - 1) * entries, page * entries);
 
   useEffect(() => {
     // Fetch users on mount
+    setLoading(true);
     fetch(apiUrl("/api/profile/all"))
       .then((res) => res.json())
-      .then((data) => setUsers(data));
+      .then((data) => setUsers(data))
+      .catch(() => setUsers([]))
+      .finally(() => setLoading(false));
   }, []);
 
   const handleEdit = (user: User) => {
@@ -179,12 +185,17 @@ export default function DataUser() {
         description="Tabel data user dan menu edit/tambah/hapus"
       />
       <PageBreadcrumb pageTitle="Data User" />
+      <LoadingStatus loading={loading} />
       <div className="rounded-2xl border border-gray-200 bg-white px-5 py-7 dark:border-gray-800 dark:bg-white/[0.03] xl:px-10 xl:py-12">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-2 px-2 md:px-4">
           <div className="flex items-center gap-3 md:gap-4">
+            <label htmlFor="du-entries" className="sr-only">
+              Show entries
+            </label>
             <span className="text-gray-500 dark:text-gray-400">Show</span>
             <div className="relative">
               <select
+                id="du-entries"
                 className="h-11 w-20 pl-4 pr-8 rounded-lg border appearance-none text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 bg-transparent text-gray-800 border-gray-300 focus:border-brand-300 focus:ring-brand-500/20 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
                 value={entries}
                 onChange={(e) => {
@@ -199,7 +210,15 @@ export default function DataUser() {
                 ))}
               </select>
               <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
-                <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6"/></svg>
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+                  <path
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 9l6 6 6-6"
+                  />
+                </svg>
               </span>
             </div>
             <span className="text-gray-500 dark:text-gray-400">entries</span>
@@ -210,27 +229,38 @@ export default function DataUser() {
               label="Admin"
               color="red"
               defaultChecked={roleFilters.admin}
-              onChange={(checked) => setRoleFilters((prev) => ({ ...prev, admin: checked }))}
+              onChange={(checked) =>
+                setRoleFilters((prev) => ({ ...prev, admin: checked }))
+              }
             />
             <Switch
               label="Officer"
               color="orange"
               defaultChecked={roleFilters.officer}
-              onChange={(checked) => setRoleFilters((prev) => ({ ...prev, officer: checked }))}
+              onChange={(checked) =>
+                setRoleFilters((prev) => ({ ...prev, officer: checked }))
+              }
             />
             <Switch
               label="User"
               color="green"
               defaultChecked={roleFilters.user}
-              onChange={(checked) => setRoleFilters((prev) => ({ ...prev, user: checked }))}
+              onChange={(checked) =>
+                setRoleFilters((prev) => ({ ...prev, user: checked }))
+              }
             />
             <div className="relative w-full max-w-xs">
+              <label htmlFor="du-search" className="sr-only">
+                Search users
+              </label>
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-400 pointer-events-none">
                 <SearchIcon className="w-[18px] h-[18px] text-gray-400 dark:text-gray-400" />
               </span>
               <input
                 type="text"
                 className="h-11 w-full pl-10 pr-4 rounded-lg border appearance-none text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 bg-transparent text-gray-800 border-gray-300 focus:border-brand-300 focus:ring-brand-500/20 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
+                id="du-search"
+                name="du-search"
                 placeholder="Search by Name or Email"
                 value={search}
                 onChange={(e) => {
@@ -251,7 +281,10 @@ export default function DataUser() {
           {/* Info jumlah data seperti DataTable */}
           <div className="flex items-center justify-between mt-4">
             <span className="text-sm text-gray-500 dark:text-gray-400">
-              Showing {filteredUsers.length === 0 ? 0 : (page - 1) * entries + 1} to {Math.min(page * entries, filteredUsers.length)} of {filteredUsers.length} entries
+              Showing{" "}
+              {filteredUsers.length === 0 ? 0 : (page - 1) * entries + 1} to{" "}
+              {Math.min(page * entries, filteredUsers.length)} of{" "}
+              {filteredUsers.length} entries
             </span>
             <div className="flex gap-2">
               <button
@@ -275,27 +308,63 @@ export default function DataUser() {
                 }
                 // Always show page 1
                 pages.push(
-                  <button key={1} className={`px-3 py-1 rounded ${page === 1 ? "bg-blue-500 text-white" : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200"}`} onClick={() => setPage(1)}>
+                  <button
+                    key={1}
+                    className={`px-3 py-1 rounded ${
+                      page === 1
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200"
+                    }`}
+                    onClick={() => setPage(1)}
+                  >
                     1
                   </button>
                 );
-                if (start > 2) pages.push(<span key="start-ellipsis" className="px-2 text-gray-500 dark:text-gray-300">...</span>);
+                if (start > 2)
+                  pages.push(
+                    <span
+                      key="start-ellipsis"
+                      className="px-2 text-gray-500 dark:text-gray-300"
+                    >
+                      ...
+                    </span>
+                  );
                 for (let i = start; i <= end; i++) {
                   if (i === 1 || i === totalPages) continue;
                   pages.push(
                     <button
                       key={i}
-                      className={`px-3 py-1 rounded ${page === i ? "bg-blue-500 text-white" : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200"}`}
+                      className={`px-3 py-1 rounded ${
+                        page === i
+                          ? "bg-blue-500 text-white"
+                          : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200"
+                      }`}
                       onClick={() => setPage(i)}
                     >
                       {i}
                     </button>
                   );
                 }
-                if (end < totalPages - 1) pages.push(<span key="end-ellipsis" className="px-2 text-gray-500 dark:text-gray-300">...</span>);
+                if (end < totalPages - 1)
+                  pages.push(
+                    <span
+                      key="end-ellipsis"
+                      className="px-2 text-gray-500 dark:text-gray-300"
+                    >
+                      ...
+                    </span>
+                  );
                 if (totalPages > 1) {
                   pages.push(
-                    <button key={totalPages} className={`px-3 py-1 rounded ${page === totalPages ? "bg-blue-500 text-white" : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200"}`} onClick={() => setPage(totalPages)}>
+                    <button
+                      key={totalPages}
+                      className={`px-3 py-1 rounded ${
+                        page === totalPages
+                          ? "bg-blue-500 text-white"
+                          : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200"
+                      }`}
+                      onClick={() => setPage(totalPages)}
+                    >
                       {totalPages}
                     </button>
                   );
@@ -336,43 +405,67 @@ export default function DataUser() {
                   await handleSave();
                 }}
               >
+                <label htmlFor="du-firstname" className="sr-only">
+                  Nama Depan
+                </label>
                 <input
                   className="border border-gray-300 dark:border-gray-700 px-3 py-2 rounded bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 dark:focus:border-blue-400 dark:focus:ring-blue-900 transition-colors"
+                  id="du-firstname"
                   name="firstname"
                   placeholder="Nama Depan"
                   value={form.firstname || ""}
                   readOnly
                 />
+                <label htmlFor="du-lastname" className="sr-only">
+                  Nama Belakang
+                </label>
                 <input
                   className="border border-gray-300 dark:border-gray-700 px-3 py-2 rounded bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 dark:focus:border-blue-400 dark:focus:ring-blue-900 transition-colors"
+                  id="du-lastname"
                   name="lastname"
                   placeholder="Nama Belakang"
                   value={form.lastname || ""}
                   readOnly
                 />
+                <label htmlFor="du-email" className="sr-only">
+                  Email
+                </label>
                 <input
                   className="border border-gray-300 dark:border-gray-700 px-3 py-2 rounded bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 dark:focus:border-blue-400 dark:focus:ring-blue-900 transition-colors"
+                  id="du-email"
                   name="email"
                   placeholder="Email"
                   value={form.email || ""}
                   readOnly
                 />
+                <label htmlFor="du-phone" className="sr-only">
+                  Telepon
+                </label>
                 <input
                   className="border border-gray-300 dark:border-gray-700 px-3 py-2 rounded bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 dark:focus:border-blue-400 dark:focus:ring-blue-900 transition-colors"
+                  id="du-phone"
                   name="phone"
                   placeholder="Telepon"
                   value={form.phone || ""}
                   readOnly
                 />
+                <label htmlFor="du-city" className="sr-only">
+                  Kota
+                </label>
                 <input
                   className="border border-gray-300 dark:border-gray-700 px-3 py-2 rounded bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 dark:focus:border-blue-400 dark:focus:ring-blue-900 transition-colors"
+                  id="du-city"
                   name="city"
                   placeholder="Kota"
                   value={form.city || ""}
                   readOnly
                 />
+                <label htmlFor="du-role" className="sr-only">
+                  Role
+                </label>
                 <select
                   className="border border-gray-300 dark:border-gray-700 px-3 py-2 rounded bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 dark:focus:border-blue-400 dark:focus:ring-blue-900 transition-colors"
+                  id="du-role"
                   name="role"
                   value={form.role || "user"}
                   onChange={handleChange}

@@ -38,8 +38,15 @@ export default function App() {
             <Route path="/admin/datatree" element={<DataTree />} />
             <Route path="/admin/dataroad" element={<DataRoad />} />
             {/* <Route path="/admin/datareport" element={<AdminDataReport />} /> */}
-          {/* Main Report Route - all roles */}
-          <Route path="/report" element={<DataReport />} />
+          </Route>
+
+          {/* Main Report Route - accessible by all authenticated roles */}
+          <Route
+            element={
+              <ProtectedRoute allowedRoles={["user", "admin", "officer"]} />
+            }
+          >
+            <Route path="/report" element={<DataReport />} />
           </Route>
 
           {/* Officer Routes */}
@@ -64,8 +71,6 @@ export default function App() {
               <ProtectedRoute allowedRoles={["user", "admin", "officer"]} />
             }
           >
-            
-            
             {/* <Route path="/view/datareport" element={<DataReport />} /> */}
             <Route path="/view/profile/:id" element={<ViewProfile />} />
             <Route path="/view/tree/:id" element={<ViewTree />} />

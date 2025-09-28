@@ -1,17 +1,25 @@
 // Format tanggal dd-Mon-yyyy
 function formatDate(dateStr?: string) {
-  if (!dateStr) return '-';
+  if (!dateStr) return "-";
   const date = new Date(dateStr);
-  if (isNaN(date.getTime())) return '-';
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = date.toLocaleString('en-US', { month: 'short' });
+  if (isNaN(date.getTime())) return "-";
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = date.toLocaleString("en-US", { month: "short" });
   const year = date.getFullYear();
   return `${day}-${month}-${year}`;
 }
 import React from "react";
+import { getUserRole } from "../../../utils/auth";
 // Inline TrashIcon agar bisa diberi props
 const TrashIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg width={props.width || 20} height={props.height || 20} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+  <svg
+    width={props.width || 20}
+    height={props.height || 20}
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
     <path
       fillRule="evenodd"
       clipRule="evenodd"
@@ -47,7 +55,13 @@ interface TableReportProps {
   total: number;
 }
 
-const TableReport: React.FC<TableReportProps> = ({ reports = [], page, setPage, entries, total }) => {
+const TableReport: React.FC<TableReportProps> = ({
+  reports = [],
+  page,
+  setPage,
+  entries,
+  total,
+}) => {
   const totalPages = Math.ceil((total || 0) / entries);
   const paged = reports;
   const startIndex = total === 0 ? 0 : (page - 1) * entries + 1;
@@ -58,22 +72,39 @@ const TableReport: React.FC<TableReportProps> = ({ reports = [], page, setPage, 
       <table className="min-w-full text-sm">
         <thead>
           <tr className="bg-blue-50 dark:bg-blue-900">
-            <th className="px-4 py-2 text-left text-gray-700 dark:text-gray-100 font-medium rounded-tl-xl">Report Name</th>
-            <th className="px-4 py-2 text-left text-gray-700 dark:text-gray-100 font-medium">Report By</th>
-            <th className="px-4 py-2 text-left text-gray-700 dark:text-gray-100 font-medium">Verified By</th>
-            <th className="px-4 py-2 text-left text-gray-700 dark:text-gray-100 font-medium">Resolved By</th>
-            <th className="px-4 py-2 text-left text-gray-700 dark:text-gray-100 font-medium">Reported At</th>
-            <th className="px-4 py-2 text-left text-gray-700 dark:text-gray-100 font-medium">Resolved At</th>
-            <th className="px-4 py-2 text-left text-gray-700 dark:text-gray-100 font-medium rounded-tr-xl">Action</th>
+            <th className="px-4 py-2 text-left text-gray-700 dark:text-gray-100 font-medium rounded-tl-xl">
+              Report Name
+            </th>
+            <th className="px-4 py-2 text-left text-gray-700 dark:text-gray-100 font-medium">
+              Report By
+            </th>
+            <th className="px-4 py-2 text-left text-gray-700 dark:text-gray-100 font-medium">
+              Verified By
+            </th>
+            <th className="px-4 py-2 text-left text-gray-700 dark:text-gray-100 font-medium">
+              Resolved By
+            </th>
+            <th className="px-4 py-2 text-left text-gray-700 dark:text-gray-100 font-medium">
+              Reported At
+            </th>
+            <th className="px-4 py-2 text-left text-gray-700 dark:text-gray-100 font-medium">
+              Resolved At
+            </th>
+            <th className="px-4 py-2 text-left text-gray-700 dark:text-gray-100 font-medium rounded-tr-xl">
+              Action
+            </th>
           </tr>
         </thead>
         <tbody>
           {paged.map((report) => (
-            <tr key={report.id} className="border-b dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900/30 transition-colors">
+            <tr
+              key={report.id}
+              className="border-b dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900/30 transition-colors"
+            >
               <td className="px-4 py-2 text-gray-700 dark:text-gray-200">
                 <div className="flex items-center gap-2">
                   <img
-                    src={report.image || '/images/report-default.jpg'}
+                    src={report.image || "/images/report-default.jpg"}
                     alt="Report"
                     className="w-8 h-8 object-cover rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900"
                   />
@@ -82,16 +113,41 @@ const TableReport: React.FC<TableReportProps> = ({ reports = [], page, setPage, 
                       href={`/view/report/${report.id}`}
                       className="block font-medium text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
                     >
-                      {report.reportName || '-'}
+                      {report.reportName || "-"}
                     </a>
                     {report.status && (
                       <span
                         className={`block mt-1 text-xs font-semibold
-                          ${report.status === 'pending' ? 'text-orange-500 dark:text-orange-300' : ''}
-                          ${report.status === 'rejected' ? 'text-red-500 dark:text-red-300' : ''}
-                          ${report.status === 'verified' ? 'text-green-500 dark:text-green-300' : ''}
-                          ${report.status === 'resolved' ? 'text-cyan-500 dark:text-cyan-300' : ''}
-                          ${!['pending','rejected','verified','resolved'].includes((report.status||'').toLowerCase()) ? 'text-gray-500 dark:text-gray-300' : ''}
+                          ${
+                            report.status === "pending"
+                              ? "text-orange-500 dark:text-orange-300"
+                              : ""
+                          }
+                          ${
+                            report.status === "rejected"
+                              ? "text-red-500 dark:text-red-300"
+                              : ""
+                          }
+                          ${
+                            report.status === "verified"
+                              ? "text-green-500 dark:text-green-300"
+                              : ""
+                          }
+                          ${
+                            report.status === "resolved"
+                              ? "text-cyan-500 dark:text-cyan-300"
+                              : ""
+                          }
+                          ${
+                            ![
+                              "pending",
+                              "rejected",
+                              "verified",
+                              "resolved",
+                            ].includes((report.status || "").toLowerCase())
+                              ? "text-gray-500 dark:text-gray-300"
+                              : ""
+                          }
                         `}
                       >
                         {report.status}
@@ -108,7 +164,9 @@ const TableReport: React.FC<TableReportProps> = ({ reports = [], page, setPage, 
                   >
                     {report.reportBy}
                   </a>
-                ) : (report.reportBy || '-')}
+                ) : (
+                  report.reportBy || "-"
+                )}
               </td>
               <td className="px-4 py-2 text-gray-700 dark:text-gray-200">
                 {report.verifiedById && report.verifiedByName ? (
@@ -118,7 +176,9 @@ const TableReport: React.FC<TableReportProps> = ({ reports = [], page, setPage, 
                   >
                     {report.verifiedByName}
                   </a>
-                ) : (report.verifiedByName || '-')}
+                ) : (
+                  report.verifiedByName || "-"
+                )}
               </td>
               <td className="px-4 py-2 text-gray-700 dark:text-gray-200">
                 {report.resolvedById && report.resolvedByName ? (
@@ -128,21 +188,33 @@ const TableReport: React.FC<TableReportProps> = ({ reports = [], page, setPage, 
                   >
                     {report.resolvedByName}
                   </a>
-                ) : (report.resolvedByName || '-')}
+                ) : (
+                  report.resolvedByName || "-"
+                )}
               </td>
               {/* Status sudah di bawah nama, kolom status dihapus */}
-              <td className="px-4 py-2 text-gray-700 dark:text-gray-200">{report.reportedAt ? formatDate(report.reportedAt) : '-'}</td>
-              <td className="px-4 py-2 text-gray-700 dark:text-gray-200">{report.resolvedAt ? formatDate(report.resolvedAt) : '-'}</td>
               <td className="px-4 py-2 text-gray-700 dark:text-gray-200">
-                <button
-                  type="button"
-                  className="p-2 rounded hover:bg-red-50 dark:hover:bg-red-900/20 text-red-500"
-                  title="Delete"
-                  onClick={() => report.onDelete && report.onDelete(report.id)}
-                >
-                  <span className="sr-only">Delete</span>
-                  <TrashIcon width={20} height={20} />
-                </button>
+                {report.reportedAt ? formatDate(report.reportedAt) : "-"}
+              </td>
+              <td className="px-4 py-2 text-gray-700 dark:text-gray-200">
+                {report.resolvedAt ? formatDate(report.resolvedAt) : "-"}
+              </td>
+              <td className="px-4 py-2 text-gray-700 dark:text-gray-200">
+                {getUserRole() === "admin" ? (
+                  <button
+                    type="button"
+                    className="p-2 rounded hover:bg-red-50 dark:hover:bg-red-900/20 text-red-500"
+                    title="Delete"
+                    onClick={() =>
+                      report.onDelete && report.onDelete(report.id)
+                    }
+                  >
+                    <span className="sr-only">Delete</span>
+                    <TrashIcon width={20} height={20} />
+                  </button>
+                ) : (
+                  <span className="text-gray-400 text-xs">—</span>
+                )}
               </td>
             </tr>
           ))}
@@ -175,27 +247,63 @@ const TableReport: React.FC<TableReportProps> = ({ reports = [], page, setPage, 
             }
             // Always show page 1
             pages.push(
-              <button key={1} className={`px-3 py-1 rounded ${page === 1 ? "bg-blue-500 text-white" : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200"}`} onClick={() => setPage(1)}>
+              <button
+                key={1}
+                className={`px-3 py-1 rounded ${
+                  page === 1
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200"
+                }`}
+                onClick={() => setPage(1)}
+              >
                 1
               </button>
             );
-            if (start > 2) pages.push(<span key="start-ellipsis" className="px-2 text-gray-500 dark:text-gray-300">...</span>);
+            if (start > 2)
+              pages.push(
+                <span
+                  key="start-ellipsis"
+                  className="px-2 text-gray-500 dark:text-gray-300"
+                >
+                  ...
+                </span>
+              );
             for (let i = start; i <= end; i++) {
               if (i === 1 || i === totalPages) continue;
               pages.push(
                 <button
                   key={i}
-                  className={`px-3 py-1 rounded ${page === i ? "bg-blue-500 text-white" : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200"}`}
+                  className={`px-3 py-1 rounded ${
+                    page === i
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200"
+                  }`}
                   onClick={() => setPage(i)}
                 >
                   {i}
                 </button>
               );
             }
-            if (end < totalPages - 1) pages.push(<span key="end-ellipsis" className="px-2 text-gray-500 dark:text-gray-300">...</span>);
+            if (end < totalPages - 1)
+              pages.push(
+                <span
+                  key="end-ellipsis"
+                  className="px-2 text-gray-500 dark:text-gray-300"
+                >
+                  ...
+                </span>
+              );
             if (totalPages > 1) {
               pages.push(
-                <button key={totalPages} className={`px-3 py-1 rounded ${page === totalPages ? "bg-blue-500 text-white" : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200"}`} onClick={() => setPage(totalPages)}>
+                <button
+                  key={totalPages}
+                  className={`px-3 py-1 rounded ${
+                    page === totalPages
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200"
+                  }`}
+                  onClick={() => setPage(totalPages)}
+                >
                   {totalPages}
                 </button>
               );
