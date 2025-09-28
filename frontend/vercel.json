@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist",
+        "buildCommand": "npm install && npm run build"
+      }
+    }
+  ],
+  "rewrites": [
+    { "source": "/assets/:path*", "destination": "/dist/assets/:path*" },
+    { "source": "/:path*", "destination": "/dist/:path*" }
+  ]
+}
