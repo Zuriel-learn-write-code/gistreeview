@@ -45,8 +45,11 @@ const corsConfig = {
       return callback(null, true);
     }
 
-    // Not allowed
-    return callback(new Error(`CORS policy: origin '${origin}' not allowed`), false);
+  // Not allowed: don't throw an error (that would become a 500). Instead
+  // deny CORS for this origin. We log a warning so the denial appears in
+  // Vercel logs for diagnosis.
+  console.warn(`CORS denied for origin: ${origin}`);
+  return callback(null, false);
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
