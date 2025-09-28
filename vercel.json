@@ -1,8 +1,5 @@
 {
   "version": 2,
-  "git": {
-    "deploymentEnabled": true
-  },
   "functions": {
     "backend/api/**/*.js": {
       "maxDuration": 300
