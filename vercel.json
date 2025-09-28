@@ -2,13 +2,6 @@
   "version": 2,
   "builds": [
     {
-      "src": "backend/api/**/*.js",
-      "use": "@vercel/node",
-      "config": {
-        "maxDuration": 300
-      }
-    },
-    {
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
@@ -17,12 +10,7 @@
       }
     }
   ],
-
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "backend/api/$1"
-    },
     {
       "handle": "filesystem"
     },

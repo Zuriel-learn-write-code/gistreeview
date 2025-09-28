@@ -74,3 +74,16 @@ Notes and gotchas
 - File uploads: the backend is configured to use Cloudinary. Do not rely on local filesystem persistence in serverless deployments.
 
 :)
+
+CI deployment (frontend-only via GitHub Actions)
+---------------------------------------------
+This repository uses a GitHub Actions workflow to deploy only the `frontend/` project to Vercel on pushes to `main`.
+
+Required repository secrets (add under Settings → Secrets):
+- `VERCEL_TOKEN` — personal access token from Vercel.
+- `VERCEL_ORG_ID` — organization ID for your Vercel account.
+- `VERCEL_PROJECT_ID_FRONTEND` — the Vercel Project ID for the frontend project.
+
+The workflow file is located at `.github/workflows/deploy-frontend-only.yml` and runs `vercel` with the working directory set to `frontend`.
+
+If you prefer to also deploy the backend from CI, you can create a separate workflow and supply `VERCEL_PROJECT_ID_BACKEND` and a working-directory of `backend`.
