@@ -73,10 +73,3 @@ Notes and gotchas
 - Serverless DB connections: monitor and consider Prisma Data Proxy or pooling if you see connection errors in production.
 - File uploads: the backend is configured to use Cloudinary. Do not rely on local filesystem persistence in serverless deployments.
 
-Need help?
-----------
-If you want, I can:
-- Add deployment docs with exact Vercel steps for a monorepo or separate projects.
-- Create scripts to copy `.env.example` to `.env` safely.
-- Add CI configuration for testing.
-
