@@ -51,7 +51,7 @@ Backend
 - JWT_SECRET (if used)
 
 Frontend
-- VITE_API_BASE — base URL for API requests (e.g. `https://gistreeview-backend-three.vercel.app`)
+- VITE_API_BASE — base URL for API requests (e.g. `https://gistreeview-e8cn.vercel.app/`)
 
 Deployment to Vercel
 --------------------
