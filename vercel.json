@@ -1,14 +1,12 @@
 {
   "version": 2,
-  "functions": {
-    "backend/api/**/*.js": {
-      "maxDuration": 300
-    }
-  },
   "builds": [
     {
       "src": "backend/api/**/*.js",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "maxDuration": 300
+      }
     },
     {
       "src": "frontend/package.json",
