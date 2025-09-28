@@ -71,6 +71,10 @@ Recommended: deploy frontend and backend as two separate projects in Vercel.
 - Add environment variable `VITE_API_BASE` in Vercel (Production) pointing to the backend's public URL.
 - Vercel will build the SPA automatically.
 
+Note about CORS headers and Vercel
+---------------------------------
+Vercel's `vercel.json` header configuration does not expand environment variables inside the `headers` block (for example, `$ALLOWED_ORIGINS`). To avoid deploying incorrect literal header values, this repository relies on in-app CORS configuration in `backend/api/index.js` where `ALLOWED_ORIGINS` is read from environment variables at runtime. Keep `backend/vercel.json` free of header substitution and set `ALLOWED_ORIGINS` in the backend project's environment variables in the Vercel dashboard.
+
 ## Notes and gotchas
 
 - Do NOT commit `.env` with secrets. Use `backend/.env.example` and `frontend/.env.example` as templates.
