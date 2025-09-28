@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import "dotenv/config";
 import express from "express";
 import { PrismaClient } from "@prisma/client";
 import registerRoute from "../src/routes/register.js";
@@ -22,14 +22,16 @@ const prisma = new PrismaClient();
 let allowedOrigins = [];
 if (process.env.ALLOWED_ORIGINS) {
   // Split on comma, trim whitespace, and filter empties
-  allowedOrigins = process.env.ALLOWED_ORIGINS.split(",").map(s => s.trim()).filter(Boolean);
+  allowedOrigins = process.env.ALLOWED_ORIGINS.split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
 } else {
   // Fallback to localhost if no origins are specified
   allowedOrigins = ["http://localhost:5173"];
 }
 
 // Normalize to lowercase for case-insensitive comparison
-allowedOrigins = allowedOrigins.map(o => o.toLowerCase());
+allowedOrigins = allowedOrigins.map((o) => o.toLowerCase());
 
 // Use a function for CORS origin so we can:
 // - allow requests without an Origin header (e.g., curl, Postman)
@@ -45,16 +47,16 @@ const corsConfig = {
       return callback(null, true);
     }
 
-  // Not allowed: don't throw an error (that would become a 500). Instead
-  // deny CORS for this origin. We log a warning so the denial appears in
-  // Vercel logs for diagnosis.
-  console.warn(`CORS denied for origin: ${origin}`);
-  return callback(null, false);
+    // Not allowed: don't throw an error (that would become a 500). Instead
+    // deny CORS for this origin. We log a warning so the denial appears in
+    // Vercel logs for diagnosis.
+    console.warn(`CORS denied for origin: ${origin}`);
+    return callback(null, false);
   },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   credentials: true,
-  maxAge: 86400 // 24 hours
+  maxAge: 86400, // 24 hours
 };
 
 app.use(cors(corsConfig));
