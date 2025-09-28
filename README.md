@@ -73,3 +73,4 @@ Notes and gotchas
 - Serverless DB connections: monitor and consider Prisma Data Proxy or pooling if you see connection errors in production.
 - File uploads: the backend is configured to use Cloudinary. Do not rely on local filesystem persistence in serverless deployments.
 
+:)
