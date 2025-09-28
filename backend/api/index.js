@@ -19,16 +19,13 @@ const prisma = new PrismaClient();
 
 // Configure CORS origins via env var for easier deployment configuration on Vercel.
 // Set ALLOWED_ORIGINS as a comma-separated list (e.g. "https://my-frontend.vercel.app,https://other.com").
-const defaultOrigins = [
-  "http://localhost:4000",
-  "http://localhost:5173",
-  "https://gistreeview.vercel.app"
-];
-
-let allowedOrigins = defaultOrigins;
+let allowedOrigins = [];
 if (process.env.ALLOWED_ORIGINS) {
   // Split on comma, trim whitespace, and filter empties
   allowedOrigins = process.env.ALLOWED_ORIGINS.split(",").map(s => s.trim()).filter(Boolean);
+} else {
+  // Fallback to localhost if no origins are specified
+  allowedOrigins = ["http://localhost:5173"];
 }
 
 // Normalize to lowercase for case-insensitive comparison
@@ -38,7 +35,7 @@ allowedOrigins = allowedOrigins.map(o => o.toLowerCase());
 // - allow requests without an Origin header (e.g., curl, Postman)
 // - do case-insensitive matching
 // - return a clear error for disallowed origins
-const corsOptions = {
+const corsConfig = {
   origin: (origin, callback) => {
     // Allow requests with no origin (curl, Postman, server-to-server)
     if (!origin) return callback(null, true);
@@ -50,10 +47,14 @@ const corsOptions = {
 
     // Not allowed
     return callback(new Error(`CORS policy: origin '${origin}' not allowed`), false);
-  }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  credentials: true,
+  maxAge: 86400 // 24 hours
 };
 
-app.use(cors(corsOptions));
+app.use(cors(corsConfig));
 app.use(express.json());
 app.use(
   "/uploads",

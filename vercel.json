@@ -1,32 +1,51 @@
 {
   "version": 2,
+  "functions": {
+    "backend/api/**/*.js": {
+      "maxDuration": 300
+    }
+  },
   "builds": [
     {
-      "src": "backend/api/index.js",
+      "src": "backend/api/**/*.js",
       "use": "@vercel/node"
     },
     {
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
-      "config": { "distDir": "dist" }
+      "config": {
+        "distDir": "dist",
+        "buildCommand": "cd frontend && npm install && npm run build"
+      }
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Credentials", "value": "true" },
+        { "key": "Access-Control-Allow-Origin", "value": "$ALLOWED_ORIGINS" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET,POST,PUT,DELETE,OPTIONS,PATCH" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type,Authorization,X-Requested-With" },
+        { "key": "Access-Control-Max-Age", "value": "86400" }
+      ]
     }
   ],
   "routes": [
     {
-      "src": "/api/ping",
-      "dest": "backend/api/ping.js"
-    },
-    {
-      "src": "/api/logtest",
-      "dest": "backend/api/logtest.js"
-    },
-    {
       "src": "/api/(.*)",
-      "dest": "backend/api/index.js"
+      "dest": "backend/api/$1"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "frontend/dist/assets/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "frontend/$1"
+      "dest": "frontend/dist/$1"
     }
   ]
 }
