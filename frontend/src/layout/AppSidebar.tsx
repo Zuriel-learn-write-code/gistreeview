@@ -128,7 +128,6 @@ const AppSidebar: React.FC = () => {
         itemsWithDynamic[userNavIndex].subItems = [
           { name: "sidebar.user.myProfile", path: userId ? `/view/profile/${userId}` : "/view/profile/", pro: false },
           { name: "sidebar.user.edit.profile", path: "/user/editprofile", pro: false },
-          { name: "sidebar.user.example", path: "/user/example", pro: false },
         ];
       }
 

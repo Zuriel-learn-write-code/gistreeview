@@ -65,8 +65,18 @@ const Road: React.FC<Props> = ({
   const { t } = useTranslation();
 
   const element = useMemo(() => {
+    // Don't render while parent is loading roads
     if (!roadsGeoJson) return null;
     if (typeof zoomLevel === 'number' && zoomLevel < 16) return null;
+    
+    // Instead of blocking render, ensure all features have at least a default color
+    if (roadsGeoJson.features) {
+      roadsGeoJson.features = roadsGeoJson.features.map(f => {
+        if (!f.properties) f.properties = {};
+        if (!f.properties.color) f.properties.color = '#ff5722'; // default color
+        return f;
+      });
+    }
 
     // build tree counts lookup
     const countsMap: Record<string, number> = {};

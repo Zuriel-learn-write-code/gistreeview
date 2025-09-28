@@ -19,6 +19,7 @@ import AddTreeButton from './UiMaps/AddTreeButton';
 import Road from './UiMaps/Road';
 import DeleteTreeButton from './UiMaps/DeleteTreeButton';
 import TreeMarker from './UiMaps/TreeMarker';
+import LoadingStatus from './UiMaps/LoadingStatus';
 import MapPopup from './UiMaps/MapPopup';
 import ReportTreeForm from './UiMaps/ReportTreeForm';
 import ExampleModalDialog from './TreeModalDialog';
@@ -242,6 +243,8 @@ const UserMaps: React.FC<UserMapsProps> = ({ height = "600px", onMapReady, onTre
   const [pickedRoadId, setPickedRoadId] = useState<string | null>(null);
   const [pickedRoadName, setPickedRoadName] = useState<string | null>(null);
       const [roadsGeoJson, setRoadsGeoJson] = useState<GeoJSON.FeatureCollection | null>(null);
+  const [isLoadingRoads, setIsLoadingRoads] = useState(true);
+  const [isLoadingTrees, setIsLoadingTrees] = useState(true);
   const [trees, setTrees] = useState<Tree[]>([]);
   const [editingTree, setEditingTree] = useState<Tree | null>(null);
 
@@ -394,6 +397,7 @@ const UserMaps: React.FC<UserMapsProps> = ({ height = "600px", onMapReady, onTre
 
       useEffect(() => {
         const loadFromApi = async () => {
+          setIsLoadingRoads(true);
           try {
             // Prefer backend endpoint that already returns GeoJSON with treesCount to reduce payload and client work
             const r = await fetch(apiUrl('/api/roads/with-treecount'));
@@ -402,6 +406,7 @@ const UserMaps: React.FC<UserMapsProps> = ({ height = "600px", onMapReady, onTre
                 const data = await r.json();
                 // Expecting FeatureCollection
                 if (data && data.type === 'FeatureCollection' && Array.isArray(data.features)) {
+                  console.debug('[UserMaps] Processing road features with colors');
                   // Normalize properties: palette enum -> hex, ensure status
                   data.features = data.features.map((f: GeoJSON.Feature) => {
                     const props = f.properties || {};
@@ -473,6 +478,8 @@ const UserMaps: React.FC<UserMapsProps> = ({ height = "600px", onMapReady, onTre
             console.error('Failed to load roads from API', err);
             setRoadsGeoJson(null);
             setEditMessage('Cannot load roads from backend API — editing disabled.');
+          } finally {
+            setIsLoadingRoads(false);
           }
         };
         loadFromApi();
@@ -664,14 +671,40 @@ const UserMaps: React.FC<UserMapsProps> = ({ height = "600px", onMapReady, onTre
   const handleTreeCreated = async () => {
     try {
       const r = await fetch(apiUrl('/api/roads/geojson'));
-      if (r.ok) setRoadsGeoJson(await r.json());
+      if (r.ok) {
+        const data = await r.json();
+        if (data && data.type === 'FeatureCollection' && Array.isArray(data.features)) {
+          // Process colors before updating state
+          data.features = data.features.map((f: GeoJSON.Feature) => {
+            const props = f.properties || {};
+            try {
+              if (props.color && typeof props.color === 'string' && props.color.startsWith('palette_')) {
+                const hex = (PALETTE_ENUM && PALETTE_ENUM[props.color]) ? PALETTE_ENUM[props.color] : PALETTE[0];
+                props.color = hex;
+              } else if (!props.color) {
+                props.color = PALETTE[0]; // Set default color
+              }
+            } catch {
+              props.color = PALETTE[0]; // Fallback color on error
+            }
+            if (!props.status) props.status = 'unknown';
+            f.properties = props;
+            return f;
+          });
+          setRoadsGeoJson(data as GeoJSON.FeatureCollection);
+        }
+      }
+
       try {
         const tr = await fetch(apiUrl('/api/trees'));
         if (tr.ok) setTrees(await tr.json());
       } catch { /* ignore tree refresh error */ }
+      
       setRoadsVersion((v) => v + 1);
       setPickedLatLng(null);
-    } catch (err) { console.error('Failed to refresh roads after tree creation', err); }
+    } catch (err) {
+      console.error('Failed to refresh roads after tree creation', err);
+    }
   };
 
   const showAlert = useCallback((variant: 'success'|'error'|'warning'|'info', title: string, message: string, duration = 3000) => {
@@ -797,12 +830,17 @@ const UserMaps: React.FC<UserMapsProps> = ({ height = "600px", onMapReady, onTre
     useEffect(() => {
       let cancelled = false;
       (async () => {
+        setIsLoadingTrees(true);
         try {
           const res = await fetch(apiUrl('/api/trees'));
           if (!res.ok) return;
           const data = await res.json();
           if (!cancelled) setTrees(data || []);
-        } catch (e) { console.error('Failed to load trees', e); }
+        } catch (e) { 
+          console.error('Failed to load trees', e); 
+        } finally {
+          if (!cancelled) setIsLoadingTrees(false);
+        }
       })();
       return () => { cancelled = true; };
     }, []);
@@ -869,6 +907,8 @@ const UserMaps: React.FC<UserMapsProps> = ({ height = "600px", onMapReady, onTre
       const geoStyle = useCallback((feature: GeoJSON.Feature | undefined) => {
         const feat = feature as GeoJSON.Feature | undefined;
         const props = (feat?.properties || {}) as RoadFeatureProperties;
+        // Ensure we always have a color - fall back to first palette color if none set
+        const defaultColor = PALETTE[0];
         // Scale weight with zoom: base weight at zoom 16, increase up to zoom 22
         const minZoom = 16;
         const maxZoom = 22;
@@ -878,7 +918,7 @@ const UserMaps: React.FC<UserMapsProps> = ({ height = "600px", onMapReady, onTre
         const t = Math.min(1, Math.max(0, (z - minZoom) / (maxZoom - minZoom)));
         const weight = Math.round(baseWeight + (maxWeight - baseWeight) * t);
         const highlight = editingRoadId === props.id ? Math.max(weight, 6) : weight;
-        return { color: props.color || '#ff5722', weight: highlight, opacity: 0.95 } as L.PathOptions;
+        return { color: props.color || defaultColor, weight: highlight, opacity: 0.95 } as L.PathOptions;
       }, [editingRoadId, zoomLevel]);
 
   // Effect to synchronize editMode with global state
@@ -900,6 +940,8 @@ const UserMaps: React.FC<UserMapsProps> = ({ height = "600px", onMapReady, onTre
         if (renderError) throw renderError;
         return (
           <div ref={wrapperRef} className="relative w-full" style={{ height }}>
+            {/* Loading indicator */}
+            <LoadingStatus isLoadingRoads={isLoadingRoads} isLoadingTrees={isLoadingTrees} />
           {/* Alerts */}
           {alertProps ? (
             <Alert
