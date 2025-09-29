@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 interface SwitchProps {
   label: string;
@@ -14,6 +14,8 @@ interface SwitchProps {
     | "teal"
     | "purple"
     | "cyan";
+  // If provided, component becomes controlled by this prop
+  checked?: boolean;
 }
 
 const Switch: React.FC<SwitchProps> = ({
@@ -22,13 +24,32 @@ const Switch: React.FC<SwitchProps> = ({
   disabled = false,
   onChange,
   color = "blue", // Default to blue color
+  checked,
 }) => {
-  const [isChecked, setIsChecked] = useState(defaultChecked);
+  // support both controlled and uncontrolled usage
+  const isControlled = typeof checked !== "undefined";
+  const [isChecked, setIsChecked] = useState<boolean>(
+    isControlled ? (checked as boolean) : defaultChecked
+  );
+
+  // keep internal state in sync when controlled or when defaultChecked changes
+  // (addresses cases where parent updates prop after mount)
+  useEffect(() => {
+    if (isControlled) {
+      setIsChecked(checked as boolean);
+    }
+  }, [checked, isControlled]);
+
+  useEffect(() => {
+    if (!isControlled) {
+      setIsChecked(defaultChecked);
+    }
+  }, [defaultChecked, isControlled]);
 
   const handleToggle = () => {
     if (disabled) return;
     const newCheckedState = !isChecked;
-    setIsChecked(newCheckedState);
+    if (!isControlled) setIsChecked(newCheckedState);
     if (onChange) {
       onChange(newCheckedState);
     }
