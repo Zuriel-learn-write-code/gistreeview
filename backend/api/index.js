@@ -1,6 +1,6 @@
 import "dotenv/config";
 import express from "express";
-import { PrismaClient } from "@prisma/client";
+import prisma from "../src/prismaClient.js";
 import registerRoute from "../src/routes/register.js";
 import loginRoute from "../src/routes/login.js";
 import profileRoute from "../src/routes/profile.js";
@@ -17,19 +17,7 @@ import serverless from "serverless-http";
 
 const app = express();
 
-// Reuse PrismaClient across invocations in serverless environments to avoid
-// creating too many DB connections which can lead to intermittent errors.
-// See: https://www.prisma.io/docs/guides/deployment/connection-management
-let prisma;
-if (globalThis.prisma) {
-  prisma = globalThis.prisma;
-} else {
-  prisma = new PrismaClient();
-  // Only keep the client on the global object in non-production to prevent
-  // accidental connection reuse in some production setups. Vercel creates a
-  // fresh runtime but this pattern helps with local dev / dev servers.
-  if (process.env.NODE_ENV !== "production") globalThis.prisma = prisma;
-}
+
 
 // Configure CORS origins via env var for easier deployment configuration on Vercel.
 // Set ALLOWED_ORIGINS as a comma-separated list (e.g. "https://my-frontend.vercel.app,https://other.com").
@@ -126,11 +114,17 @@ app.use("/api/profile", profileRoute);
 app.use((err, req, res, next) => {
   try {
     // If this is a Prisma error, log helpful fields so Vercel logs show the cause.
-    const prismaDetails = err && err.name && err.name.startsWith("Prisma") ? formatPrismaError(err) : null;
+    const prismaDetails =
+      err && err.name && err.name.startsWith("Prisma")
+        ? formatPrismaError(err)
+        : null;
     if (prismaDetails) {
       console.error("Prisma error:", prismaDetails);
     }
-    console.error("Unhandled error in request:", err && err.stack ? err.stack : err);
+    console.error(
+      "Unhandled error in request:",
+      err && err.stack ? err.stack : err
+    );
   } catch (e) {
     console.error("Error logging failed:", e);
   }
