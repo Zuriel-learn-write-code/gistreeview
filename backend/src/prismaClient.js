@@ -35,6 +35,39 @@ if (process.env.NODE_ENV !== "production") {
   });
 }
 
+// Prisma middleware: retry once on prepared-statement collisions which can occur
+// in pooled/serverless environments (Postgres 42P05 / message contains 'prepared statement').
+prisma.$use(async (params, next) => {
+  let attempt = 0;
+  while (true) {
+    try {
+      return await next(params);
+    } catch (err) {
+      const msg = err?.message || "";
+      const code = err?.code || "";
+      if (attempt === 0 && (code === "42P05" || msg.toLowerCase().includes("prepared statement"))) {
+        console.warn("Prisma middleware detected prepared-statement error, reconnecting and retrying once", { code, message: msg });
+        attempt++;
+        try {
+          await prisma.$disconnect();
+        } catch (e) {
+          /* ignore */
+        }
+        try {
+          await prisma.$connect();
+        } catch (e) {
+          console.error("Prisma reconnect failed during retry:", e && e.stack ? e.stack : e);
+          // If reconnect fails, throw original error
+          throw err;
+        }
+        // retry loop
+        continue;
+      }
+      throw err;
+    }
+  }
+});
+
 export default prisma;
 
 export function formatPrismaError(err) {
