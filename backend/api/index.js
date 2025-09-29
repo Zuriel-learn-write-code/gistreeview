@@ -11,6 +11,7 @@ import roadPicturesRoute from "../src/routes/roadpictures.js";
 import reportsRoute from "../src/routes/reports.js";
 import reportPicturesRoute from "../src/routes/reportpictures.js";
 import cors from "cors";
+import { formatPrismaError } from "../src/prismaClient.js";
 import path from "path";
 import serverless from "serverless-http";
 
@@ -123,10 +124,16 @@ app.use("/api/profile", profileRoute);
 
 // Generic error handler so Express returns JSON and we log the stack to Vercel.
 app.use((err, req, res, next) => {
-  console.error(
-    "Unhandled error in request:",
-    err && err.stack ? err.stack : err
-  );
+  try {
+    // If this is a Prisma error, log helpful fields so Vercel logs show the cause.
+    const prismaDetails = err && err.name && err.name.startsWith("Prisma") ? formatPrismaError(err) : null;
+    if (prismaDetails) {
+      console.error("Prisma error:", prismaDetails);
+    }
+    console.error("Unhandled error in request:", err && err.stack ? err.stack : err);
+  } catch (e) {
+    console.error("Error logging failed:", e);
+  }
   res.status(500).json({ error: err?.message || "Internal Server Error" });
 });
 
