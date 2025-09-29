@@ -1,9 +1,9 @@
 import express from "express";
-import { PrismaClient } from "@prisma/client";
+import prisma from "../prismaClient.js";
 import bcrypt from "bcryptjs";
 
 const router = express.Router();
-const prisma = new PrismaClient();
+// use shared prisma instance imported above
 
 // POST /api/register
 router.post("/", async (req, res) => {

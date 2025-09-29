@@ -1,6 +1,6 @@
-import 'dotenv/config';
+import "dotenv/config";
 import express from "express";
-import { PrismaClient } from "@prisma/client";
+import prisma from "./prismaClient.js";
 import registerRoute from "./routes/register.js";
 import loginRoute from "./routes/login.js";
 import profileRoute from "./routes/profile.js";
@@ -14,7 +14,6 @@ import reportPicturesRoute from "./routes/reportpictures.js";
 import cors from "cors";
 
 const app = express();
-const prisma = new PrismaClient();
 
 import path from "path";
 
@@ -22,12 +21,14 @@ import path from "path";
 const defaultOrigins = [
   "http://localhost:4000",
   "http://localhost:5173",
-  "https://gistreeview.vercel.app"
+  "https://gistreeview.vercel.app",
 ];
 
 let allowedOrigins = defaultOrigins;
 if (process.env.ALLOWED_ORIGINS) {
-  allowedOrigins = process.env.ALLOWED_ORIGINS.split(",").map(s => s.trim()).filter(Boolean);
+  allowedOrigins = process.env.ALLOWED_ORIGINS.split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
 }
 
 app.use(cors({ origin: allowedOrigins }));

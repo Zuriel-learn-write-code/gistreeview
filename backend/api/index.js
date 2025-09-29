@@ -15,7 +15,20 @@ import path from "path";
 import serverless from "serverless-http";
 
 const app = express();
-const prisma = new PrismaClient();
+
+// Reuse PrismaClient across invocations in serverless environments to avoid
+// creating too many DB connections which can lead to intermittent errors.
+// See: https://www.prisma.io/docs/guides/deployment/connection-management
+let prisma;
+if (globalThis.prisma) {
+  prisma = globalThis.prisma;
+} else {
+  prisma = new PrismaClient();
+  // Only keep the client on the global object in non-production to prevent
+  // accidental connection reuse in some production setups. Vercel creates a
+  // fresh runtime but this pattern helps with local dev / dev servers.
+  if (process.env.NODE_ENV !== "production") globalThis.prisma = prisma;
+}
 
 // Configure CORS origins via env var for easier deployment configuration on Vercel.
 // Set ALLOWED_ORIGINS as a comma-separated list (e.g. "https://my-frontend.vercel.app,https://other.com").
@@ -47,11 +60,11 @@ const corsConfig = {
       return callback(null, true);
     }
 
-    // Not allowed: don't throw an error (that would become a 500). Instead
-    // deny CORS for this origin. We log a warning so the denial appears in
-    // Vercel logs for diagnosis.
-    console.warn(`CORS denied for origin: ${origin}`);
-    return callback(null, false);
+    // Not allowed
+    return callback(
+      new Error(`CORS policy: origin '${origin}' not allowed`),
+      false
+    );
   },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
@@ -81,20 +94,49 @@ app.get("/trees", async (req, res) => {
   res.json(trees);
 });
 
+// Simple health check: verifies app is reachable and can query the DB.
+// Use this from health checks or Vercel logs to get a quick status.
+app.get("/api/health", async (req, res) => {
+  try {
+    // Quick and cheap check: run a simple raw query or connect.
+    await prisma.$connect();
+    // Optionally run a tiny query depending on the DB/provider
+    await prisma.$queryRaw`SELECT 1`;
+    res.json({ ok: true, db: "connected" });
+  } catch (err) {
+    console.error("Health check failed:", err && err.stack ? err.stack : err);
+    res
+      .status(503)
+      .json({ ok: false, error: err?.message || "DB connection failed" });
+  }
+});
+
 app.use("/api/trees", treesRoute);
 app.use("/api/treepictures", treePicturesRoute);
 app.use("/api/roads", roadsRoute);
 app.use("/api/roadpictures", roadPicturesRoute);
-app.use("/api/roads", roadPicturesRoute);
 app.use("/api/register", registerRoute);
 app.use("/api/login", loginRoute);
 app.use("/api/reports", reportsRoute);
 app.use("/api/reportpictures", reportPicturesRoute);
 app.use("/api/profile", profileRoute);
 
-export default app;
+// Generic error handler so Express returns JSON and we log the stack to Vercel.
+app.use((err, req, res, next) => {
+  console.error(
+    "Unhandled error in request:",
+    err && err.stack ? err.stack : err
+  );
+  res.status(500).json({ error: err?.message || "Internal Server Error" });
+});
 
 // Export a serverless handler for platforms like Vercel that expect a function entry.
-// This keeps local usage (importing the app) intact while also providing a handler
-// that wraps the Express app for per-invocation execution.
-export const handler = serverless(app);
+// Export the handler as the default export so Vercel's Node builder picks it up
+// reliably, and also expose it as a named export for tests or local wrappers.
+const handler = serverless(app);
+// Also export the raw Express app for local debugging / wrappers so we can
+// run it directly without going through serverless-http (which expects
+// full lambda event objects).
+export { app };
+export default handler;
+export { handler };
