@@ -46,22 +46,31 @@ prisma.$use(async (params, next) => {
       const msg = err?.message || "";
       const code = err?.code || "";
       if (attempt === 0 && (code === "42P05" || msg.toLowerCase().includes("prepared statement"))) {
-        console.warn("Prisma middleware detected prepared-statement error, reconnecting and retrying once", { code, message: msg });
+        console.warn("Prisma middleware detected prepared-statement error, attempting DEALLOCATE ALL and retrying once", { code, message: msg });
         attempt++;
+        // First try to clear prepared statements on the current connection
         try {
-          await prisma.$disconnect();
-        } catch (e) {
-          /* ignore */
+          await prisma.$executeRawUnsafe('DEALLOCATE ALL');
+          // If successful, retry the operation
+          continue;
+        } catch (deallocErr) {
+          console.warn('DEALLOCATE ALL failed, falling back to disconnect/reconnect', deallocErr && deallocErr.message ? deallocErr.message : deallocErr);
+          // Fallback: try reconnecting
+          try {
+            await prisma.$disconnect();
+          } catch (e) {
+            /* ignore */
+          }
+          try {
+            await prisma.$connect();
+          } catch (e) {
+            console.error("Prisma reconnect failed during retry:", e && e.stack ? e.stack : e);
+            // If reconnect fails, throw original error
+            throw err;
+          }
+          // retry loop
+          continue;
         }
-        try {
-          await prisma.$connect();
-        } catch (e) {
-          console.error("Prisma reconnect failed during retry:", e && e.stack ? e.stack : e);
-          // If reconnect fails, throw original error
-          throw err;
-        }
-        // retry loop
-        continue;
       }
       throw err;
     }
