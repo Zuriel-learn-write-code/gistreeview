@@ -2,6 +2,13 @@
   "version": 2,
   "builds": [
     {
+      "src": "backend/api/**/*.js",
+      "use": "@vercel/node",
+      "config": {
+        "maxDuration": 300
+      }
+    },
+    {
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
@@ -10,7 +17,29 @@
       }
     }
   ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Credentials", "value": "true" },
+        { "key": "Access-Control-Allow-Origin", "value": "$ALLOWED_ORIGINS" },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET,POST,PUT,DELETE,OPTIONS,PATCH"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type,Authorization,X-Requested-With"
+        },
+        { "key": "Access-Control-Max-Age", "value": "86400" }
+      ]
+    }
+  ],
   "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "backend/api/$1"
+    },
     {
       "handle": "filesystem"
     },
@@ -19,8 +48,12 @@
       "dest": "frontend/dist/assets/$1"
     },
     {
-      "src": "/(.*)",
-      "dest": "frontend/dist/$1"
+      "src": "^/(.*)\\.(js|css|png|jpg|svg|ico|json|map)$",
+      "dest": "frontend/dist/$1.$2"
+    },
+    {
+      "src": "^/(.*)$",
+      "dest": "frontend/dist/index.html"
     }
   ]
 }
